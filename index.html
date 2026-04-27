@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monev UPK 2026 - Dinas Pendidikan Sumedang</title>
+    <style>
+        /* CSS STYLE - TETAP SAMA SEPERTI SEBELUMNYA */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1450px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-bottom: 6px solid #fbbf24;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 { font-size: 24px; letter-spacing: 1px; margin-bottom: 5px; }
+        header p { font-size: 16px; font-weight: bold; color: #dbeafe; }
+        header .address { font-size: 12px; font-weight: normal; margin-top: 8px; color: #bfdbfe; }
+
+        main { flex: 1; padding: 30px 0; }
+
+        .main-logo-wrapper { text-align: center; margin-bottom: 20px; }
+        .center-logo { max-width: 200px; height: auto; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.1)); }
+
+        .welcome-text { text-align: center; margin-bottom: 30px; }
+        .welcome-text h2 { color: #1e3a8a; font-size: 28px; margin-bottom: 5px; }
+
+        .card-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .card-btn {
+            background: white; border: 2px solid #1e3a8a; border-radius: 15px;
+            padding: 35px; width: 280px; cursor: pointer; transition: all 0.3s ease;
+            text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .card-btn h3 { font-size: 24px; color: #1e3a8a; margin-bottom: 10px; }
+        .card-btn p { color: #666; font-size: 14px; }
+        .card-btn:hover {
+            background: #1e3a8a; color: white; transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(30, 58, 138, 0.2);
+        }
+        .card-btn:hover h3, .card-btn:hover p { color: white; }
+
+        .hidden { display: none; }
+        .active { display: block; }
+
+        .data-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 25px; background: white; padding: 15px 25px;
+            border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .back-btn {
+            background-color: #f1f5f9; color: #1e3a8a; border: 1px solid #cbd5e1;
+            padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;
+        }
+
+        .table-container {
+            background: white; padding: 20px; border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow-x: auto;
+        }
+        table { width: 100%; border-collapse: collapse; min-width: 1200px; }
+        th {
+            background-color: #1e3a8a; color: white; padding: 12px;
+            text-align: left; font-size: 11px; text-transform: uppercase;
+        }
+        td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+        tr:hover { background-color: #f8fafc; }
+
+        .status { padding: 4px 10px; border-radius: 50px; font-size: 10px; font-weight: bold; display: inline-block; }
+        .status-hijau { background-color: #dcfce7; color: #166534; }
+        .status-merah { background-color: #fee2e2; color: #991b1b; }
+
+        footer {
+            background-color: #1e293b; color: #94a3b8; text-align: center;
+            padding: 20px 0; font-size: 13px; margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>DINAS PENDIDIKAN KABUPATEN SUMEDANG</h1>
+            <p>MONEV UPK UJIAN PENDIDIKAN NON FORMAL DIKMAS TAHUN 2026</p>
+            <p class="address">Jl. Pendopo-tegalkaong Kel. Talun Kec. Sumedang Utara, Kabupaten Sumedang 45352</p>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section id="home-section" class="active">
+            <div class="main-logo-wrapper">
+                <img src="logo.png" alt="Logo Monev UPK" class="center-logo">
+            </div>
+
+            <div class="welcome-text">
+                <h2>Dashboard Utama</h2>
+                <p>Monitoring & Verifikasi Pelaksanaan Ujian Pendidikan Kesetaraan (UPK)</p>
+            </div>
+            
+            <div class="card-container">
+                <div class="card-btn" onclick="tampilkanData('Paket A')">
+                    <h3>Paket A</h3>
+                    <p>Program Kesetaraan Setara SD</p>
+                </div>
+                <div class="card-btn" onclick="tampilkanData('Paket B')">
+                    <h3>Paket B</h3>
+                    <p>Program Kesetaraan Setara SMP</p>
+                </div>
+                <div class="card-btn" onclick="tampilkanData('Paket C')">
+                    <h3>Paket C</h3>
+                    <p>Program Kesetaraan Setara SMA</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="data-section" class="hidden">
+            <div class="data-header">
+                <button class="back-btn" onclick="kembaliKeHome()">⬅ Kembali</button>
+                <h2 id="judul-paket">DATA MONEV UPK</h2>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Satuan Pendidikan</th>
+                            <th>Kecamatan</th>
+                            <th>Verval</th>
+                            <th>Monev</th>
+                            <th>Inst.</th>
+                            <th>Pelaksanaan</th>
+                            <th>Jenjang/Tingkat</th>
+                            <th>Peserta (L/P/Jml)</th>
+                            <th>Valid DNS</th>
+                            <th>Residu DNS</th>
+                            <th>Konfirmasi</th>
+                            <th>Jml Siswa</th>
+                            <th>Dokumen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-data">
+                        </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">&copy; 2026 Dinas Pendidikan Kabupaten Sumedang.</div>
+    </footer>
+
+    <script>
+        const databasePKBM = {
+            "Paket A": [
+                { nama: "PKBM MEKAR BUANA", kec: "Sumedang Utara", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 0, rdns: 0, konf: 0, jpd: 0, dok: "Belum" },
+                { nama: "PKBM PASCA MARGA", kec: "Sumedang Utara", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 0, rdns: 0, konf: 0, jpd: 0, dok: "Belum" }
+            ],
+            "Paket B": [
+                { nama: "PKBM MEKAR BUANA", kec: "Sumedang Utara", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 30, rdns: 0, konf: 0, jpd: 30, dok: "Belum" },
+                { nama: "PKBM PASCA MARGA", kec: "Sumedang Utara", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 2, rdns: 0, konf: 0, jpd: 2, dok: "Belum" },
+                { nama: "PKBM MULYASARI SEJATI", kec: "Sumedang Utara", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 1, p: 1, jml: 2, vdns: 1, rdns: 1, konf: 0, jpd: 2, dok: "Belum" },
+                { nama: "PKBM AL AMANAH", kec: "Sumedang Utara", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 14, rdns: 0, konf: 0, jpd: 14, dok: "Belum" }
+            ],
+            "Paket C": [
+                {nama: "PKBM MEKAR BUANA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "21-22 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 15, p: 8, jml: 23, vdns: 23, rdns: 0, konf: 6, jpd: 23, dok: "Ada"},
+                {nama: "PKBM PASCA MARGA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "15-18 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 24, p: 12, jml: 36, vdns: 32, rdns: 4, konf: 0, jpd: 36, dok: "Ada"},
+                {nama: "PKBM MULYASARI SEJA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "08-09 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 3, p: 5, jml: 8, vdns: 8, rdns: 0, konf: 0, jpd: 8, dok: "Ada"},
+                {nama: "PKBM AL AMANAH", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "11-12 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 17, p: 8, jml: 25, vdns: 25, rdns: 0, konf: 0, jpd: 25, dok: "Ada"},
+                {nama: "PKBM TARBIYATUL UMN", kec: "Ganeas", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "04-05 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 43, p: 25, jml: 68, vdns: 67, rdns: 0, konf: 0, jpd: 67, dok: "Ada"},
+                {nama: "PKBM CIGEMBONG", kec: "Ganeas", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "18-19 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 25, p: 20, jml: 45, vdns: 26, rdns: 19, konf: 0, jpd: 45, dok: "Ada"},
+                {nama: "PKBM AL GHOFUR SITU", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "11-12 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 2, p: 1, jml: 3, vdns: 2, rdns: 1, konf: 2, jpd: 3, dok: "Ada"},
+                {nama: "PKBM MAHARANI", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "17-19 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 17, p: 25, jml: 42, vdns: 37, rdns: 5, konf: 0, jpd: 42, dok: "Ada"},
+                {nama: "PKBM SRIKANDI", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "11-12 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 3, p: 5, jml: 8, vdns: 8, rdns: 0, konf: 0, jpd: 8, dok: "Ada"},
+                {nama: "PKBM PELITA INSANI", kec: "Cisarua", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "11-12 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 67, p: 51, jml: 118, vdns: 106, rdns: 30, konf: 0, jpd: 136, dok: "Ada"},
+                {nama: "PKBM SIMPAY WARGI", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "18-19 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 22, p: 30, jml: 52, vdns: 52, rdns: 13, konf: 7, jpd: 65, dok: "Ada"},
+                {nama: "PKBM BINA BHAKTI MAN", kec: "Cisitu", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 23, rdns: 1, konf: 0, jpd: 24, dok: "Belum"},
+                {nama: "PKBM NURUL HAQQ", kec: "Wado", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "26-Apr-26", jnj: "Paket C", tkt: "Kelas 12", l: 15, p: 19, jml: 34, vdns: 34, rdns: 0, konf: 0, jpd: 34, dok: "Ada"},
+                {nama: "PKBM RAUDHOTUL JAN", kec: "Tanjung Meda", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "15-16 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 14, p: 10, jml: 24, vdns: 4, rdns: 20, konf: 0, jpd: 24, dok: "Ada"},
+            ]
+        };
+
+        function getBadge(val) {
+            const text = val.toString().toLowerCase();
+            if (text === "sudah" || text === "lengkap" || text === "ada") {
+                return `<span class="status status-hijau">${val}</span>`;
+            }
+            return `<span class="status status-merah">${val}</span>`;
+        }
+
+        function tampilkanData(paket) {
+            document.getElementById('home-section').classList.remove('active');
+            document.getElementById('home-section').classList.add('hidden');
+            document.getElementById('data-section').classList.remove('hidden');
+            document.getElementById('data-section').classList.add('active');
+
+            document.getElementById('judul-paket').innerText = `DATA MONEV UPK - ${paket.toUpperCase()}`;
+
+            const data = databasePKBM[paket];
+            const tbody = document.getElementById('tabel-data');
+            tbody.innerHTML = '';
+
+            data.forEach((item, index) => {
+                const row = `<tr>
+                    <td>${index + 1}</td>
+                    <td><strong>${item.nama}</strong></td>
+                    <td>${item.kec}</td>
+                    <td>${getBadge(item.verval)}</td>
+                    <td>${getBadge(item.monev)}</td>
+                    <td>${getBadge(item.inst)}</td>
+                    <td>${item.tgl}</td>
+                    <td>${item.jnj} / ${item.tkt}</td>
+                    <td>${item.l}L / ${item.p}P / <strong>${item.jml}</strong></td>
+                    <td>${item.vdns}</td>
+                    <td>${item.rdns}</td>
+                    <td>${item.konf}</td>
+                    <td><strong>${item.jpd}</strong></td>
+                    <td>${getBadge(item.dok)}</td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+            window.scrollTo(0,0);
+        }
+
+        function kembaliKeHome() {
+            document.getElementById('data-section').classList.remove('active');
+            document.getElementById('data-section').classList.add('hidden');
+            document.getElementById('home-section').classList.remove('hidden');
+            document.getElementById('home-section').classList.add('active');
+            window.scrollTo(0,0);
+        }
+    </script>
+</body>
+</html>
