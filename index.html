@@ -146,6 +146,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>NPSN</th>
                             <th>Satuan Pendidikan</th>
                             <th>Kecamatan</th>
                             <th>Verval</th>
@@ -153,8 +154,8 @@
                             <th>Inst.</th>
                             <th>Pelaksanaan</th>
                             <th>Jenjang/Tingkat</th>
-                            <th>Peserta (Laki-laki)</th>
-                            <th>Peserta (Perempuan)</th>
+                            <th>Peserta ( L )</th>
+                            <th>Peserta ( P )</th>
                             <th>Jml Siswa </th>
                             <th>Valid DNS</th>
                             <th>Residu DNS</th>
@@ -179,12 +180,12 @@
     <script>
         const databasePKBM = {
             "Paket A": [
-                { nama: "PKBM TARBIYATUL UMMAH", kec: "Ganeas", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 55, rdns: 0, konf: 42, jpd: 55, tdok: "Belum", pdok: "Belum" },
-                { nama: "PKBM AL GHOFUR SITURAJA", kec: "Situraja", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 1, rdns: 0, konf: 1, jpd: 1, tdok: "Belum", pdok: "Belum" },
-                { nama: "PKBM MAHARANI", kec: "Situraja", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 8, rdns: 1, konf: 1, jpd: 9, tdok: "Belum", pdok: "Belum" },
-                { nama: "PKBM AGROFORESTY", kec: "Jatinunggal", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 8, rdns: 0, konf: 0, jpd: 8, tdok: "Belum", pdok: "Belum" },
-                { nama: "PKBM NURUL HUDA", kec: "Sumedang Selatan", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 3, rdns: 0, konf: 0, jpd: 3, tdok: "Belum", pdok: "Belum" },
-                { nama: "PKBM SHOHIBUL QURAN", kec: "Sumedang Selatan", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 9, rdns: 0, konf: 0, jpd: 9, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9984529", nama: "PKBM TARBIYATUL UMMAH", kec: "Ganeas", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 55, rdns: 0, konf: 42, jpd: 55, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9984529", nama: "PKBM AL GHOFUR SITURAJA", kec: "Situraja", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 1, rdns: 0, konf: 1, jpd: 1, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9984529", nama: "PKBM MAHARANI", kec: "Situraja", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 8, rdns: 1, konf: 1, jpd: 9, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9984529", nama: "PKBM AGROFORESTY", kec: "Jatinunggal", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 8, rdns: 0, konf: 0, jpd: 8, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9984529", nama: "PKBM NURUL HUDA", kec: "Sumedang Selatan", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 3, rdns: 0, konf: 0, jpd: 3, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9984529", nama: "PKBM SHOHIBUL QURAN", kec: "Sumedang Selatan", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 9, rdns: 0, konf: 0, jpd: 9, tdok: "Belum", pdok: "Belum" },
             ],  
             "Paket B": [
                 { nama: "PKBM MEKAR BUANA", kec: "Sumedang Utara", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 29, rdns: 0, konf: 0, jpd: 29, tdok: "Belum", pdok: "Belum" },
@@ -255,6 +256,7 @@
             data.forEach((item, index) => {
                 const row = `<tr>
                     <td>${index + 1}</td>
+                    <td><strong>${item.npsn}</strong></td>
                     <td><strong>${item.nama}</strong></td>
                     <td>${item.kec}</td>
                     <td>${getBadge(item.verval)}</td>
