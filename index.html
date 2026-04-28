@@ -226,9 +226,9 @@
                 {nama: "PKBM NURUL HUDA", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 134, rdns: 0, konf: 4, jpd: 134, dok: "Sudah", dok: "Belum" },
                 {nama: "PKBM IGI SUMEDANG", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 15, rdns: 0, konf: 0, jpd: 15, dok: "Sudah", dok: "Sudah" },
                 {nama: "PKBM CENDIKIA", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 6, rdns: 0, konf: 0, jpd: 6, dok: "Sudah", dok: "Belum" },
-                {nama: "PKBM JEMBAR KABISA", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 71, rdns: 2, konf: 0, jpd: 73, dok: "Sudah", dok: "Belum" },
-                {nama: "PKBM AL QOSAMIYAH", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 10, jml: 0, vdns: 17, rdns: 0, konf: 0, jpd: 17, dok: "Sudah", dok: "Belum" },
-                {nama: "PKBM ASSYARIATUL ULUM", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 4, rdns: 4, konf: 0, jpd: 8, dok: "Sudah", dok: "Belum" },
+                {nama: "PKBM JEMBAR KABISA", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 71, rdns: 2, konf: 0, jpd: 73, tdok: "Sudah", pdok: "Belum" },
+                {nama: "PKBM AL QOSAMIYAH", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 10, jml: 0, vdns: 17, rdns: 0, konf: 0, jpd: 17, tdok: "Sudah", pdok: "Belum" },
+                {nama: "PKBM ASSYARIATUL ULUM", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 4, rdns: 4, konf: 0, jpd: 8, tdok: "Sudah", pdok: "Belum" },
             ]
         };
 
@@ -269,8 +269,8 @@
                     <td>${item.rdns}</td>
                     <td>${item.konf}</td>
                     <td><strong>${item.jpd}</strong></td>
-                    <td>${getBadge(item.dok)}</td>
-                    <td>${getBadge(item.dok)}</td>
+                    <td>${getBadge(item.tdok)}</td>
+                    <td>${getBadge(item.pdok)}</td>
                 </tr>`;
                 tbody.innerHTML += row;
             });
