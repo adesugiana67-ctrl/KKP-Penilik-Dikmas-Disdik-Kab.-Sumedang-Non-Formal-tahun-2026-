@@ -79,7 +79,7 @@
             background: white; padding: 20px; border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow-x: auto;
         }
-        table { width: 100%; border-collapse: collapse; min-width: 1200px; }
+table { width: 100%; border-collapse: collapse; min-width: 1200px; }
         th {
             background-color: #1e3a8a; color: white; padding: 12px;
             text-align: left; font-size: 11px; text-transform: uppercase;
@@ -91,19 +91,56 @@
         .status-hijau { background-color: #dcfce7; color: #166534; }
         .status-merah { background-color: #fee2e2; color: #991b1b; }
 
+        /* Warna untuk sel tabel Valid DNS, Konfirmasi, dan Residu DNS */
+        .cell-hijau { background-color: #dcfce7 !important; color: #166534; font-weight: bold; }
+        .cell-kuning { background-color: #fef9c3 !important; color: #854d0e; font-weight: bold; }
+        .cell-merah { background-color: #fee2e2 !important; color: #991b1b; font-weight: bold; }
+
         footer {
             background-color: #1e293b; color: #94a3b8; text-align: center;
             padding: 20px 0; font-size: 13px; margin-top: 40px;
+        }
+
+        /* PENGATURAN POSISI LOGO DAN TEKS DI HEADER */
+        .header-flex {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Membuat grup logo & teks berada di tengah */
+            gap: 20px; /* Jarak antara logo dan teks */
+        }
+
+        .header-logo {
+            max-width: 80px; /* Anda bisa mengubah angka ini untuk memperbesar/memperkecil logo */
+            height: auto;
+        }
+
+        .header-text {
+            text-align: left; /* Membuat teks sejajar rata kiri di samping logo */
+        }
+
+        /* Responsif agar rapi saat dibuka di HP */
+        @media (max-width: 600px) {
+            .header-flex { 
+                flex-direction: column; 
+                text-align: center; 
+            }
+            .header-text { 
+                text-align: center; 
+            }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <h1>DINAS PENDIDIKAN KABUPATEN SUMEDANG</h1>
-            <p>MONEV UPK UJIAN PENDIDIKAN KESETARAAN DIKMAS TAHUN 2026</p>
-            <p class="address">Jl. Pendopo-tegalkaong Kel. Talun Kec. Sumedang Utara, Kabupaten Sumedang 45352</p>
+        <div class="container header-flex">
+            <img src="logo1.png" alt="Logo Pemkab Sumedang" class="header-logo">
+            
+            <div class="header-text">
+                <h1>DINAS PENDIDIKAN KABUPATEN SUMEDANG</h1>
+                <p>MONEV UPK UJIAN PENDIDIKAN NON FORMAL DIKMAS TAHUN 2026</p>
+                <p class="address">Jl. Pendopo-tegalkaong Kel. Talun Kec. Sumedang Utara, Kabupaten Sumedang 45352</p>
+            </div>
         </div>
     </header>
 
@@ -233,12 +270,28 @@
             ]
         };
 
-        function getBadge(val) {
+function getBadge(val) {
             const text = val.toString().toLowerCase();
             if (text === "sudah" || text === "lengkap" || text === "*") {
                 return `<span class="status status-hijau">${val}</span>`;
             }
             return `<span class="status status-merah">${val}</span>`;
+        }
+
+        // Fungsi untuk menentukan warna sel tabel Valid DNS, Konfirmasi, dan Residu DNS
+        // type: 'vdns' atau 'konf' (normal) | 'rdns' (inverted)
+        function getCellColor(value, jpd, type) {
+            if (type === 'rdns') {
+                // Residu DNS: green jika 0, yellow jika tidak sesuai jml siswa, red jika sesuai jml siswa
+                if (value === 0) return 'cell-hijau';
+                if (value === jpd) return 'cell-merah';
+                return 'cell-kuning';
+            } else {
+                // Valid DNS dan Konfirmasi: green jika sesuai jml siswa, yellow jika tidak sesuai, red jika 0
+                if (value === 0) return 'cell-merah';
+                if (value === jpd) return 'cell-hijau';
+                return 'cell-kuning';
+            }
         }
 
         function tampilkanData(paket) {
@@ -253,7 +306,11 @@
             const tbody = document.getElementById('tabel-data');
             tbody.innerHTML = '';
 
-            data.forEach((item, index) => {
+data.forEach((item, index) => {
+                const vdnsColorClass = getCellColor(item.vdns, item.jpd, 'vdns');
+                const rdnsColorClass = getCellColor(item.rdns, item.jpd, 'rdns');
+                const konfColorClass = getCellColor(item.konf, item.jpd, 'konf');
+                
                 const row = `<tr>
                     <td>${index + 1}</td>
                     <td><strong>${item.npsn}</strong></td>
@@ -264,12 +321,12 @@
                     <td>${getBadge(item.inst)}</td>
                     <td>${item.tgl}</td>
                     <td>${item.jnj} / ${item.tkt}</td>
-                    <td>${item.l}</strong></td>
-                    <td>${item.p}</strong></td>
-                    <td>${item.jml}</strong></td>
-                    <td>${item.vdns}</td>
-                    <td>${item.rdns}</td>
-                    <td>${item.konf}</strong></td>
+                    <td>${item.l}</td>
+                    <td>${item.p}</td>
+                    <td>${item.jml}</td>
+                    <td><span class="status ${vdnsColorClass}">${item.vdns}</span></td>
+                    <td><span class="status ${rdnsColorClass}">${item.rdns}</span></td>
+                    <td><span class="status ${konfColorClass}">${item.konf}</span></td>
                     <td><strong>${item.jpd}</strong></td>
                     <td>${getBadge(item.tdok)}</td>
                     <td>${getBadge(item.pdok)}</td>
