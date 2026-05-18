@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monev UPK - Dinas Pendidikan Kabupaten Sumedang</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+        }
+        .header-bg {
+            background-color: #114494;
+        }
+        .badge-belum {
+            background-color: #fee2e2;
+            color: #ef4444;
+        }
+        .badge-sudah {
+            background-color: #dcfce7;
+            color: #22c55e;
+        }
+        
+        /* Optimasi Cetak (Print Styles) */
+        @media print {
+            body {
+                background-color: #ffffff;
+            }
+            nav, .no-print, button, form, .header-bg .bg-amber-400 {
+                display: none !important;
+            }
+            .header-bg {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                border-bottom: 2px solid #000000 !important;
+                padding: 10px 0 !important;
+            }
+            .header-bg p {
+                color: #374151 !important;
+            }
+            main {
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+            .tab-content {
+                display: block !important;
+            }
+            .overflow-x-auto {
+                overflow: visible !important;
+            }
+            table {
+                border-collapse: collapse !important;
+                width: 100% !important;
+            }
+            th {
+                background-color: #f3f4f6 !important;
+                color: #000000 !important;
+                border: 1px solid #d1d5db !important;
+            }
+            td {
+                border: 1px solid #e5e7eb !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-bg text-white text-center py-6 px-4 relative border-b-4 border-amber-400 shadow-md">
+        <div class="flex items-center justify-center gap-4 mb-2">
+            <div class="p-0 w-16 h-16 flex items-center justify-center no-print">
+<img src="logo1.png" alt="Logo" class="w-16 h-16 object-cover" />
+            </div>
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold tracking-wide">DINAS PENDIDIKAN KABUPATEN SUMEDANG</h1>
+                <p class="text-sm md:text-base font-semibold text-amber-300">MONEV UPK UJIAN PENDIDIKAN NON FORMAL DIKMAS TAHUN 2026</p>
+                <p class="text-xs text-blue-200 opacity-90 mt-1">Jl. Pendopo-tegalalong Kel. Talun Kec. Sumedang Utara, Kabupaten Sumedang 45352</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-white shadow-md sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-14">
+                <div class="flex space-x-2 md:space-x-4 w-full justify-center md:justify-start">
+                    <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2 text-sm font-semibold border-b-2 border-blue-600 text-blue-600 transition-all duration-200 flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-chart-pie"></i> Beranda
+                    </button>
+                    <button onclick="switchTab('paketA')" id="nav-paketA" class="nav-btn px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-400 transition-all duration-200 flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-font"></i> Paket A (SD)
+                    </button>
+                    <button onclick="switchTab('paketB')" id="nav-paketB" class="nav-btn px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-400 transition-all duration-200 flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-bold"></i> Paket B (SMP)
+                    </button>
+                    <button onclick="switchTab('paketC')" id="nav-paketC" class="nav-btn px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-400 transition-all duration-200 flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-copyright"></i> Paket C (SMA)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-6">
+
+        <section id="tab-beranda" class="tab-content block animate-fadeIn">
+            <div class="text-center my-6 no-print">
+                <div class="inline-block p-4 bg-white rounded-full shadow-md mb-3">
+                    <i class="fa-solid fa-chart-line text-blue-600 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">Dashboard Utama</h2>
+                <p class="text-sm text-gray-500">Monitoring & Verifikasi Pelaksanaan Ujian Pendidikan Kesetaraan (UPK)</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-gray-400 uppercase">Total Satuan Pendidikan</p>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1" id="kpi-lembaga">0 Lembaga</h3>
+                    </div>
+                    <div class="p-3 bg-blue-50 text-blue-500 rounded-lg text-xl"><i class="fa-solid fa-school"></i></div>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-green-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-gray-400 uppercase">Total Peserta Ujian</p>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1" id="kpi-siswa">0 Siswa</h3>
+                    </div>
+                    <div class="p-3 bg-green-50 text-green-500 rounded-lg text-xl"><i class="fa-solid fa-users"></i></div>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-amber-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-gray-400 uppercase">Valid DNS</p>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1" id="kpi-valid">0 Siswa</h3>
+                    </div>
+                    <div class="p-3 bg-amber-50 text-amber-500 rounded-lg text-xl"><i class="fa-solid fa-user-check"></i></div>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-purple-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-gray-400 uppercase">UPK Tulis Selesai</p>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1" id="kpi-tulis">0 Lembaga</h3>
+                    </div>
+                    <div class="p-3 bg-purple-50 text-purple-500 rounded-lg text-xl"><i class="fa-solid fa-file-signature"></i></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 no-print">
+                <div onclick="switchTab('paketA')" class="bg-white p-6 rounded-2xl shadow-sm border-2 border-transparent hover:border-blue-500 cursor-pointer hover:shadow-md transition-all text-center group">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 group-hover:text-white transition-all text-blue-600">
+                        <i class="fa-solid fa-font text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-blue-900">Paket A</h4>
+                    <p class="text-sm text-gray-500 mt-1">Program Kesetaraan Setara SD</p>
+                    <span class="inline-block mt-4 text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full" id="badge-countA">0 Lembaga</span>
+                </div>
+                
+                <div onclick="switchTab('paketB')" class="bg-white p-6 rounded-2xl shadow-sm border-2 border-transparent hover:border-blue-500 cursor-pointer hover:shadow-md transition-all text-center group">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 group-hover:text-white transition-all text-blue-600">
+                        <i class="fa-solid fa-bold text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-blue-900">Paket B</h4>
+                    <p class="text-sm text-gray-500 mt-1">Program Kesetaraan Setara SMP</p>
+                    <span class="inline-block mt-4 text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full" id="badge-countB">0 Lembaga</span>
+                </div>
+
+                <div onclick="switchTab('paketC')" class="bg-white p-6 rounded-2xl shadow-sm border-2 border-transparent hover:border-blue-500 cursor-pointer hover:shadow-md transition-all text-center group">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 group-hover:text-white transition-all text-blue-600">
+                        <i class="fa-solid fa-copyright text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-blue-900">Paket C</h4>
+                    <p class="text-sm text-gray-500 mt-1">Program Kesetaraan Setara SMA</p>
+                    <span class="inline-block mt-4 text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full" id="badge-countC">0 Lembaga</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-gray-700 flex items-center gap-2"><i class="fa-solid fa-chart-column text-blue-500"></i> Distribusi Jumlah Siswa per Jenjang</h4>
+                    </div>
+                    <div style="height: 300px; position: relative;">
+                        <canvas id="chartSiswa"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-gray-700 flex items-center gap-2"><i class="fa-solid fa-chart-pie text-emerald-500"></i> Progres Pelaksanaan UPK Tulis (Lembaga)</h4>
+                    </div>
+                    <div style="height: 300px; position: relative;">
+                        <canvas id="chartMonevStatus"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center no-print">
+                <button onclick="window.print()" class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-xl font-bold shadow-md inline-flex items-center gap-2 cursor-pointer transition-all">
+                    <i class="fa-solid fa-print"></i> Cetak Seluruh Laporan Dashboard Utama
+                </button>
+            </div>
+        </section>
+
+        <section id="tab-paketA" class="tab-content hidden animate-fadeIn">
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b pb-4 mb-6 gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-900">DATA MONEV UPK - PAKET A</h3>
+                        <p class="text-sm text-gray-500">Daftar monitoring pelaksanaan ujian Paket A setara SD</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 w-full lg:w-auto no-print">
+                        <button onclick="toggleInputForm('paketA')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-plus"></i> Tambah Data
+                        </button>
+                        <button onclick="exportToCSV('paketA')" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-file-excel"></i> Unduh Data Excel/CSV
+                        </button>
+                        <button onclick="window.print()" class="bg-blue-800 hover:bg-blue-900 text-white px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-print"></i> Cetak Tabel
+                        </button>
+                        <button onclick="switchTab('beranda')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-arrow-left"></i> Beranda
+                        </button>
+                    </div>
+                </div>
+
+                <div id="form-container-paketA" class="hidden bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 no-print">
+                    <h4 class="font-bold text-gray-700 mb-4 flex items-center gap-2"><i class="fa-solid fa-wpforms text-emerald-600"></i> Formulir Tambah Data Lembaga Paket A</h4>
+                    <form id="form-paketA" onsubmit="handleFormSubmit(event, 'paketA')" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">NPSN</label>
+                            <input type="text" required id="inputA-npsn" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Nama Satuan Pendidikan (PKBM/SKB)</label>
+                            <input type="text" required id="inputA-nama" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Kecamatan</label>
+                            <input type="text" required id="inputA-kec" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Jumlah Siswa</label>
+                            <input type="number" required id="inputA-siswa" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Valid DNS</label>
+                            <input type="number" required id="inputA-valid" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Konfirmasi</label>
+                            <input type="number" required id="inputA-konf" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Status Verval</label>
+                            <select id="inputA-verval" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Belum">Belum</option>
+                                <option value="Sudah">Sudah</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Status Monev</label>
+                            <select id="inputA-monev" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Belum">Belum</option>
+                                <option value="Sudah">Sudah</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Status Instrumen</label>
+                            <select id="inputA-inst" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Belum">Belum</option>
+                                <option value="Lengkap">Lengkap</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">UPK Tulis</label>
+                            <select id="inputA-tulis" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Belum">Belum</option>
+                                <option value="Sudah">Sudah</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">UPK Praktik</label>
+                            <select id="inputA-praktik" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Belum">Belum</option>
+                                <option value="Sudah">Sudah</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-3 lg:col-span-4 flex justify-end gap-2 mt-2">
+                            <button type="button" onclick="toggleInputForm('paketA')" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-1.5 rounded-md text-xs font-bold cursor-pointer">Batal</button>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-1.5 rounded-md text-xs font-bold cursor-pointer shadow-sm">Simpan Ke Tabel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                        <thead class="bg-blue-900 text-white text-xs uppercase tracking-wider">
+                            <tr>
+                                <th class="p-3">NO</th>
+                                <th class="p-3">NPSN</th>
+                                <th class="p-3">SATUAN PENDIDIKAN</th>
+                                <th class="p-3">KECAMATAN</th>
+                                <th class="p-3 text-center">VERVAL</th>
+                                <th class="p-3 text-center">MONEV</th>
+                                <th class="p-3 text-center">INST.</th>
+                                <th class="p-3">JENJANG/TINGKAT</th>
+                                <th class="p-3 text-center">JML SISWA</th>
+                                <th class="p-3 text-center">VALID DNS</th>
+                                <th class="p-3 text-center">KONFIRMASI</th>
+                                <th class="p-3 text-center">UPK TULIS</th>
+                                <th class="p-3 text-center">UPK PRAKTIK</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 bg-white" id="table-paketA-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-paketB" class="tab-content hidden animate-fadeIn">
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b pb-4 mb-6 gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-900">DATA MONEV UPK - PAKET B</h3>
+                        <p class="text-sm text-gray-500">Daftar monitoring pelaksanaan ujian Paket B setara SMP</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 w-full lg:w-auto no-print">
+                        <button onclick="toggleInputForm('paketB')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-plus"></i> Tambah Data
+                        </button>
+                        <button onclick="exportToCSV('paketB')" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-file-excel"></i> Unduh Data Excel/CSV
+                        </button>
+                        <button onclick="window.print()" class="bg-blue-800 hover:bg-blue-900 text-white px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-print"></i> Cetak Tabel
+                        </button>
+                        <button onclick="switchTab('beranda')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-arrow-left"></i> Beranda
+                        </button>
+                    </div>
+                </div>
+
+                <div id="form-container-paketB" class="hidden bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 no-print">
+                    <h4 class="font-bold text-gray-700 mb-4 flex items-center gap-2"><i class="fa-solid fa-wpforms text-emerald-600"></i> Formulir Tambah Data Lembaga Paket B</h4>
+                    <form id="form-paketB" onsubmit="handleFormSubmit(event, 'paketB')" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">NPSN</label>
+                            <input type="text" required id="inputB-npsn" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Nama Satuan Pendidikan</label>
+                            <input type="text" required id="inputB-nama" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Kecamatan</label>
+                            <input type="text" required id="inputB-kec" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Jumlah Siswa</label>
+                            <input type="number" required id="inputB-siswa" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Valid DNS</label>
+                            <input type="number" required id="inputB-valid" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Konfirmasi</label>
+                            <input type="number" required id="inputB-konf" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Status Verval</label>
+                            <select id="inputB-verval" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Sudah">Sudah</option>
+                                <option value="Belum">Belum</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Status Monev</label>
+                            <select id="inputB-monev" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Sudah">Sudah</option>
+                                <option value="Belum">Belum</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Status Instrumen</label>
+                            <select id="inputB-inst" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Belum">Belum</option>
+                                <option value="Lengkap">Lengkap</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">UPK Tulis</label>
+                            <select id="inputB-tulis" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Belum">Belum</option>
+                                <option value="Sudah">Sudah</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">UPK Praktik</label>
+                            <select id="inputB-praktik" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Belum">Belum</option>
+                                <option value="Sudah">Sudah</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-3 lg:col-span-4 flex justify-end gap-2 mt-2">
+                            <button type="button" onclick="toggleInputForm('paketB')" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-1.5 rounded-md text-xs font-bold cursor-pointer">Batal</button>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-1.5 rounded-md text-xs font-bold cursor-pointer shadow-sm">Simpan Ke Tabel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                        <thead class="bg-blue-900 text-white text-xs uppercase tracking-wider">
+                            <tr>
+                                <th class="p-3">NO</th>
+                                <th class="p-3">NPSN</th>
+                                <th class="p-3">SATUAN PENDIDIKAN</th>
+                                <th class="p-3">KECAMATAN</th>
+                                <th class="p-3 text-center">VERVAL</th>
+                                <th class="p-3 text-center">MONEV</th>
+                                <th class="p-3 text-center">INST.</th>
+                                <th class="p-3">JENJANG/TINGKAT</th>
+                                <th class="p-3 text-center">JML SISWA</th>
+                                <th class="p-3 text-center">VALID DNS</th>
+                                <th class="p-3 text-center">KONFIRMASI</th>
+                                <th class="p-3 text-center">UPK TULIS</th>
+                                <th class="p-3 text-center">UPK PRAKTIK</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 bg-white" id="table-paketB-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-paketC" class="tab-content hidden animate-fadeIn">
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b pb-4 mb-6 gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-900">DATA MONEV UPK - PAKET C</h3>
+                        <p class="text-sm text-gray-500">Daftar monitoring pelaksanaan ujian Paket C setara SMA</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 w-full lg:w-auto no-print">
+                        <button onclick="toggleInputForm('paketC')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-plus"></i> Tambah Data
+                        </button>
+                        <button onclick="exportToCSV('paketC')" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-file-excel"></i> Unduh Data Excel/CSV
+                        </button>
+                        <button onclick="window.print()" class="bg-blue-800 hover:bg-blue-900 text-white px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-print"></i> Cetak Tabel
+                        </button>
+                        <button onclick="switchTab('beranda')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 text-xs font-bold rounded-lg flex items-center gap-1 cursor-pointer transition-all">
+                            <i class="fa-solid fa-arrow-left"></i> Beranda
+                        </button>
+                    </div>
+                </div>
+
+                <div id="form-container-paketC" class="hidden bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 no-print">
+                    <h4 class="font-bold text-gray-700 mb-4 flex items-center gap-2"><i class="fa-solid fa-wpforms text-emerald-600"></i> Formulir Tambah Data Lembaga Paket C</h4>
+                    <form id="form-paketC" onsubmit="handleFormSubmit(event, 'paketC')" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">NPSN</label>
+                            <input type="text" required id="inputC-npsn" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Nama Satuan Pendidikan</label>
+                            <input type="text" required id="inputC-nama" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Kecamatan</label>
+                            <input type="text" required id="inputC-kec" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Jumlah Siswa</label>
+                            <input type="number" required id="inputC-siswa" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Valid DNS</label>
+                            <input type="number" required id="inputC-valid" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Konfirmasi</label>
+                            <input type="number" required id="inputC-konf" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Status Verval</label>
+                            <select id="inputC-verval" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Sudah">Sudah</option>
+                                <option value="Belum">Belum</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Status Monev</label>
+                            <select id="inputC-monev" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Sudah">Sudah</option>
+                                <option value="Belum">Belum</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Status Instrumen</label>
+                            <select id="inputC-inst" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Lengkap">Lengkap</option>
+                                <option value="Belum">Belum</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">UPK Tulis</label>
+                            <select id="inputC-tulis" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Sudah">Sudah</option>
+                                <option value="Belum">Belum</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">UPK Praktik</label>
+                            <select id="inputC-praktik" class="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm outline-none focus:border-blue-500">
+                                <option value="Belum">Belum</option>
+                                <option value="Sudah">Sudah</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-3 lg:col-span-4 flex justify-end gap-2 mt-2">
+                            <button type="button" onclick="toggleInputForm('paketC')" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-1.5 rounded-md text-xs font-bold cursor-pointer">Batal</button>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-1.5 rounded-md text-xs font-bold cursor-pointer shadow-sm">Simpan Ke Tabel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                        <thead class="bg-blue-900 text-white text-xs uppercase tracking-wider">
+                            <tr>
+                                <th class="p-3">NO</th>
+                                <th class="p-3">NPSN</th>
+                                <th class="p-3">SATUAN PENDIDIKAN</th>
+                                <th class="p-3">KECAMATAN</th>
+                                <th class="p-3 text-center">VERVAL</th>
+                                <th class="p-3 text-center">MONEV</th>
+                                <th class="p-3 text-center">INST.</th>
+                                <th class="p-3">JENJANG/TINGKAT</th>
+                                <th class="p-3 text-center">JML SISWA</th>
+                                <th class="p-3 text-center">VALID DNS</th>
+                                <th class="p-3 text-center">KONFIRMASI</th>
+                                <th class="p-3 text-center">UPK TULIS</th>
+                                <th class="p-3 text-center">UPK PRAKTIK</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 bg-white" id="table-paketC-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-gray-400 text-center py-4 text-xs mt-12 border-t border-slate-700 no-print">
+        <p>&copy; 2026 Dinas Pendidikan Kabupaten Sumedang. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        let myChartSiswa = null;
+        let myChartMonev = null;
+
+        // Basis Data Awal sesuai dengan tangkapan layar berkas fisik sebelumnya
+        let paketAData = [
+            { no: 1, npsn: "P2963445", nama: "PKBM TARBIYATUL UMMAH", kec: "Ganeas", verval: "Belum", monev: "Belum", inst: "Belum", jenjang: "Paket A / Kelas 6", siswa: 55, valid: 55, konf: 42, tulis: "Belum", praktik: "Belum" },
+            { no: 2, npsn: "P9952442", nama: "PKBM AL GHOFUR SITURAJA", kec: "Situraja", verval: "Belum", monev: "Belum", inst: "Belum", jenjang: "Paket A / Kelas 6", siswa: 1, valid: 1, konf: 1, tulis: "Belum", praktik: "Belum" },
+            { no: 3, npsn: "P9952443", nama: "PKBM MAHARANI", kec: "Situraja", verval: "Belum", monev: "Belum", inst: "Belum", jenjang: "Paket A / Kelas 6", siswa: 9, valid: 8, konf: 1, tulis: "Belum", praktik: "Belum" },
+            { no: 4, npsn: "P2970386", nama: "PKBM AGROFORESTY", kec: "Jatinunggal", verval: "Belum", monev: "Belum", inst: "Belum", jenjang: "Paket A / Kelas 6", siswa: 8, valid: 8, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 5, npsn: "P2963440", nama: "PKBM NURUL HUDA", kec: "Sumedang Selatan", verval: "Belum", monev: "Belum", inst: "Belum", jenjang: "Paket A / Kelas 6", siswa: 3, valid: 3, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 6, npsn: "P9998294", nama: "PKBM SHOHIBUL QURAN", kec: "Sumedang Selatan", verval: "Belum", monev: "Belum", inst: "Belum", jenjang: "Paket A / Kelas 6", siswa: 9, valid: 9, konf: 0, tulis: "Belum", praktik: "Belum" }
+        ];
+
+        let paketBData = [
+            { no: 1, npsn: "P2963449", nama: "PKBM MEKAR BUANA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 29, valid: 29, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 2, npsn: "P9934726", nama: "PKBM PASCA MARGA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 2, valid: 2, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 3, npsn: "P9952581", nama: "PKBM MULYASARI SEJATI", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 1, valid: 1, konf: 1, tulis: "Belum", praktik: "Belum" },
+            { no: 4, npsn: "P9999789", nama: "PKBM AL AMANAH", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 14, valid: 14, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 5, npsn: "P2963445", nama: "PKBM TARBIYATUL UMMAH", kec: "Ganeas", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 19, valid: 19, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 6, npsn: "P9968108", nama: "PKBM CIGEMBONG", kec: "Ganeas", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 9, valid: 9, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 7, npsn: "P2970650", nama: "PKBM CERDAS KARYA", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 14, valid: 14, konf: 1, tulis: "Belum", praktik: "Belum" },
+            { no: 8, npsn: "P9952443", nama: "PKBM MAHARANI", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 27, valid: 27, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 9, npsn: "P9984832", nama: "PKBM PELITA INSANI", kec: "Cisarua", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 4, valid: 4, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 10, npsn: "P2964041", nama: "PKBM SIMPAY WARGI", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 4, valid: 4, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 11, npsn: "P9934693", nama: "PKBM BHAKTI MANDIRI", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 3, valid: 3, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 12, npsn: "P9984831", nama: "PKBM NUURUL HAQQ", kec: "Wado", verval: "Sudah", monev: "Belum", inst: "Sudah", jenjang: "Paket B / Kelas 9", siswa: 19, valid: 19, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 13, npsn: "P2963439", nama: "PKBM AS-SALAM", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 20, valid: 20, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 14, npsn: "P2963440", nama: "PKBM NURUL HUDA", kec: "Sumeddang Selatan", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 7, valid: 7, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 15, npsn: "P9984529", nama: "PKBM IGI SUMEDANG", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 3, valid: 3, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 16, npsn: "P9984560", nama: "PKBM CENDIKIA", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 6, valid: 6, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 17, npsn: "P2963437", nama: "PKBM JEMBAR KABISA", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 18, valid: 18, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 18, npsn: "P9996364", nama: "PKBM AL QOSAMIYAH", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 6, valid:6, konf: 0, tulis: "Belum", praktik: "Belum" },
+            { no: 19, npsn: "P9999067", nama: "PKBM ASSYARIATUL ULUM", kec: "Rancakalong", verval: "Sudah", monev: "sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 1, valid: 1, konf: 0, tulis: "Belum", praktik: "Belum" }
+        ];
+
+        let paketCData = [
+            { no: 1, npsn: "P2963449", nama: "PKBM MEKAR BUANA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 23, valid: 23, konf: 2, tulis: "Sudah", praktik: "Belum" },
+            { no: 2, npsn: "P9934726", nama: "PKBM PASCA MARGA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 36, valid: 32, konf: 16, tulis: "Sudah", praktik: "Belum" },
+            { no: 3, npsn: "P9952581", nama: "PKBM MULYASARI SEJATI", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 8, valid: 8, konf: 8, tulis: "Sudah", praktik: "Sudah" },
+            { no: 4, npsn: "P9999789", nama: "PKBM AL AMANAH", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 25, valid: 25, konf: 0, tulis: "Sudah", praktik: "Sudah" },
+            { no: 5, npsn: "P2963445", nama: "PKBM TARBIYATUL UMMAH", kec: "Ganeas", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 67, valid: 67, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 6, npsn: "P9968108", nama: "PKBM CIGEMBONG", kec: "Ganeas", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 45, valid: 45, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 7, npsn: "P9952442", nama: "PKBM AL GHOFUR SITU", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 3, valid: 3, konf: 2, tulis: "Sudah", praktik: "Belum" },
+            { no: 8, npsn: "P9952443", nama: "PKBM MAHARANI", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 42, valid: 42, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 9, npsn: "P9997402", nama: "PKBM SRIKANDI", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 8, valid: 8, konf: 8, tulis: "Sudah", praktik: "Belum" },
+            { no: 10, npsn: "P9984832", nama: "PKBM PELITA INSANI", kec: "Cisarua", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 138, valid: 136, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 11, npsn: "P2964041", nama: "PKBM SIMPAY WARGI", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 65, valid: 65, konf: 7, tulis: "Sudah", praktik: "Belum" },
+            { no: 12, npsn: "P9934693", nama: "PKBM BINA BHAKTI MAN", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 24, valid: 24, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 13, npsn: "P9984831", nama: "PKBM NURUL HAQQ", kec: "Wado", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 34, valid: 34, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 14, npsn: "P9984583", nama: "PKBM RAUDHOTUL JAN", kec: "Tanjung Medar", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 24, valid: 24, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 15, npsn: "P2963439", nama: "PKBM AS-SALAM", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 27, valid: 27, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 16, npsn: "P2963440", nama: "PKBM NURUL HUDA", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 134, valid: 134, konf: 4, tulis: "Sudah", praktik: "Belum" },
+            { no: 17, npsn: "P9984529", nama: "PKBM IGI SUMEDANG", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 15, valid: 15, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 18, npsn: "P9984560", nama: "PKBM CENDIKIA", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 6, valid: 6, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 19, npsn: "P2963437", nama: "PKBM JEMBAR KABISA", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 73, valid: 73, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 20, npsn: "P9996364", nama: "PKBM AL QOSAMIYAH", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 17, valid: 17, konf: 0, tulis: "Sudah", praktik: "Belum" },
+            { no: 21, npsn: "P9999067", nama: "PKBM ASSYARIATUL ULUM", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 8, valid: 8, konf: 0, tulis: "Sudah", praktik: "Belum" }
+        ];
+        
+        // Navigasi Tab
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+                tab.classList.remove('block');
+            });
+            
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).classList.add('block');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('border-b-2', 'border-blue-600', 'text-blue-600');
+                btn.classList.add('border-transparent', 'text-gray-600');
+            });
+
+            document.getElementById('nav-' + tabName).classList.add('border-b-2', 'border-blue-600', 'text-blue-600');
+            document.getElementById('nav-' + tabName).classList.remove('border-transparent', 'text-gray-600');
+        }
+
+        // Tampilkan / Sembunyikan Form Input Data
+        function toggleInputForm(paket) {
+            const formContainer = document.getElementById(`form-container-${paket}`);
+            formContainer.classList.toggle('hidden');
+        }
+
+        // Memproses Submit Data Form Baru
+        function handleFormSubmit(event, paket) {
+            event.preventDefault();
+            
+            let dataArray = (paket === 'paketA') ? paketAData : (paket === 'paketB') ? paketBData : paketCData;
+            let prefix = (paket === 'paketA') ? 'inputA' : (paket === 'paketB') ? 'inputB' : 'inputC';
+            let kelasText = (paket === 'paketA') ? 'Paket A / Kelas 6' : (paket === 'paketB') ? 'Paket B / Kelas 9' : 'Paket C / Kelas 12';
+
+            const newRecord = {
+                no: dataArray.length + 1,
+                npsn: document.getElementById(`${prefix}-npsn`).value,
+                nama: document.getElementById(`${prefix}-nama`).value.toUpperCase(),
+                kec: document.getElementById(`${prefix}-kec`).value,
+                verval: document.getElementById(`${prefix}-verval`).value,
+                monev: document.getElementById(`${prefix}-monev`).value,
+                inst: document.getElementById(`${prefix}-inst`).value,
+                jenjang: kelasText,
+                siswa: parseInt(document.getElementById(`${prefix}-siswa`).value) || 0,
+                valid: parseInt(document.getElementById(`${prefix}-valid`).value) || 0,
+                konf: parseInt(document.getElementById(`${prefix}-konf`).value) || 0,
+                tulis: document.getElementById(`${prefix}-tulis`).value,
+                praktik: document.getElementById(`${prefix}-praktik`).value
+            };
+
+            dataArray.push(newRecord);
+            
+            // Reset & Sembunyikan Formulir kembali
+            document.getElementById(`form-${paket}`).reset();
+            toggleInputForm(paket);
+            
+            // Gambar ulang tabel dan update grafik dashboard
+            renderTables();
+            updateCalculationsAndCharts();
+        }
+
+        // Render isi baris tabel secara dinamis
+        function renderTables() {
+            const createRowHTML = (d) => `
+                <tr class="hover:bg-gray-50 transition-all border-b border-gray-100">
+                    <td class="p-3 font-semibold text-gray-500">${d.no}</td>
+                    <td class="p-3 text-blue-700 font-medium">${d.npsn}</td>
+                    <td class="p-3 font-bold text-gray-800">${d.nama}</td>
+                    <td class="p-3 text-gray-600">${d.kec}</td>
+                    <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-bold ${d.verval === 'Sudah' ? 'badge-sudah' : 'badge-belum'}">${d.verval}</span></td>
+                    <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-bold ${d.monev === 'Sudah' ? 'badge-sudah' : 'badge-belum'}">${d.monev}</span></td>
+                    <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-bold ${d.inst === 'Lengkap' ? 'bg-teal-100 text-teal-700' : 'badge-belum'}">${d.inst}</span></td>
+                    <td class="p-3 text-gray-600">${d.jenjang}</td>
+                    <td class="p-3 text-center font-bold text-blue-900">${d.siswa}</td>
+                    <td class="p-3 text-center bg-green-50/50 text-green-700 font-bold">${d.valid}</td>
+                    <td class="p-3 text-center bg-amber-50 text-amber-700 font-bold">${d.konf}</td>
+                    <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-bold ${d.tulis === 'Sudah' ? 'badge-sudah' : 'badge-belum'}">${d.tulis}</span></td>
+                    <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-bold ${d.praktik === 'Sudah' ? 'badge-sudah' : 'badge-belum'}">${d.praktik}</span></td>
+                </tr>
+            `;
+
+            document.getElementById('table-paketA-body').innerHTML = paketAData.map(createRowHTML).join('');
+            document.getElementById('table-paketB-body').innerHTML = paketBData.map(createRowHTML).join('');
+            document.getElementById('table-paketC-body').innerHTML = paketCData.map(createRowHTML).join('');
+        }
+
+        // Kalkulasi Total Data & Sinkronisasi Grafik Live
+        function updateCalculationsAndCharts() {
+            const totalSiswaA = paketAData.reduce((acc, obj) => acc + obj.siswa, 0);
+            const totalSiswaB = paketBData.reduce((acc, obj) => acc + obj.siswa, 0);
+            const totalSiswaC = paketCData.reduce((acc, obj) => acc + obj.siswa, 0);
+
+            const totalValidA = paketAData.reduce((acc, obj) => acc + obj.valid, 0);
+            const totalValidB = paketBData.reduce((acc, obj) => acc + obj.valid, 0);
+            const totalValidC = paketCData.reduce((acc, obj) => acc + obj.valid, 0);
+
+            const totalLembaga = paketAData.length + paketBData.length + paketCData.length;
+            
+            const upkTulisSelesai = 
+                paketAData.filter(d => d.tulis === 'Sudah').length +
+                paketBData.filter(d => d.tulis === 'Sudah').length +
+                paketCData.filter(d => d.tulis === 'Sudah').length;
+
+            const upkTulisBelum = totalLembaga - upkTulisSelesai;
+
+            // Tampilkan hasil kalkulasi ke kartu KPI utama
+            document.getElementById('kpi-lembaga').innerText = `${totalLembaga} Lembaga`;
+            document.getElementById('kpi-siswa').innerText = `${totalSiswaA + totalSiswaB + totalSiswaC} Siswa`;
+            document.getElementById('kpi-valid').innerText = `${totalValidA + totalValidB + totalValidC} Siswa`;
+            document.getElementById('kpi-tulis').innerText = `${upkTulisSelesai} Lembaga`;
+
+            document.getElementById('badge-countA').innerText = `${paketAData.length} Lembaga`;
+            document.getElementById('badge-countB').innerText = `${paketBData.length} Lembaga`;
+            document.getElementById('badge-countC').innerText = `${paketCData.length} Lembaga`;
+
+            // Refresh komponen Grafik Siswa
+            if (myChartSiswa) {
+                myChartSiswa.data.datasets[0].data = [totalSiswaA, totalSiswaB, totalSiswaC];
+                myChartSiswa.update();
+            }
+
+            // Refresh komponen Grafik Progres UPK Tulis
+            if (myChartMonev) {
+                myChartMonev.data.datasets[0].data = [upkTulisSelesai, upkTulisBelum];
+                myChartMonev.update();
+            }
+        }
+
+        // Fitur Unduh Berkas - Ekspor Tabel Aktif Menjadi Format File .CSV (Excel)
+        function exportToCSV(paket) {
+            let dataArray = (paket === 'paketA') ? paketAData : (paket === 'paketB') ? paketBData : paketCData;
+            let csvHeaders = ["No", "NPSN", "Satuan Pendidikan", "Kecamatan", "Verval", "Monev", "Instrumen", "Jenjang", "Jumlah Siswa", "Valid DNS", "Konfirmasi", "UPK Tulis", "UPK Praktik"];
+            let csvRows = [csvHeaders.join(",")];
+
+            dataArray.forEach(row => {
+                let values = [
+                    row.no,
+                    `"${row.npsn}"`,
+                    `"${row.nama}"`,
+                    `"${row.kec}"`,
+                    `"${row.verval}"`,
+                    `"${row.monev}"`,
+                    `"${row.inst}"`,
+                    `"${row.jenjang}"`,
+                    row.siswa,
+                    row.valid,
+                    row.konf,
+                    `"${row.tulis}"`,
+                    `"${row.praktik}"`
+                ];
+                csvRows.push(values.join(","));
+            });
+
+            let csvString = csvRows.join("\n");
+            let blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            let link = document.createElement("a");
+            
+            if (link.download !== undefined) {
+                let url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", `Data_Monev_UPK_${paket.toUpperCase()}_2026.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+
+        // Inisialisasi awal Grafik Chart.js
+        function initCharts() {
+            const ctxSiswa = document.getElementById('chartSiswa').getContext('2d');
+            myChartSiswa = new Chart(ctxSiswa, {
+                type: 'bar',
+                data: {
+                    labels: ['Paket A (SD)', 'Paket B (SMP)', 'Paket C (SMA)'],
+                    datasets: [{
+                        label: 'Jumlah Siswa Keseluruhan',
+                        data: [85, 66, 159],
+                        backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            const ctxMonev = document.getElementById('chartMonevStatus').getContext('2d');
+            myChartMonev = new Chart(ctxMonev, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Selesai UPK Tulis', 'Belum Pelaksanaan'],
+                    datasets: [{
+                        data: [5, 12],
+                        backgroundColor: ['#10b981', '#ef4444'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = function() {
+            renderTables();
+            initCharts();
+            updateCalculationsAndCharts();
+        };
+    </script>
+</body>
+</html>
