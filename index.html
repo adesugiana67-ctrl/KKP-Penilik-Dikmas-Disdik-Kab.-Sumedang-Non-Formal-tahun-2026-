@@ -1,1189 +1,348 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
-<meta name="theme-color" content="#1a237e">
-<title>MONEV UPK - Dinas Pendidikan Kabupaten Sumedang</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-<style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  html,body{overflow-x:hidden}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Tahoma,sans-serif;background:#f3f4f6;color:#1e293b;min-height:100vh;-webkit-font-smoothing:antialiased}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monev UPK 2026 - Dinas Pendidikan Sumedang</title>
+    <style>
+        /* CSS STYLE - TETAP SAMA SEPERTI SEBELUMNYA */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-  /* ===== HEADER ===== */
-  .header{background:#1a237e;color:#fff;padding:12px 0;border-bottom:4px solid #f59e0b;text-align:center}
-  .header-inner{max-width:1200px;margin:0 auto;padding:0 12px;display:flex;align-items:center;justify-content:center;gap:12px}
-  .header-logo{width:50px;height:50px;display:flex;align-items:center;justify-content:center;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
-  .header-logo img{width:100%;height:100%;object-fit:contain}
-  .header-text{min-width:0;flex:1;max-width:850px}
-  .header h1{font-size:.95rem;letter-spacing:.2px;line-height:1.2;margin-bottom:2px}
-  .header p{font-size:.7rem;line-height:1.3}
-  .header .sub{font-size:.65rem;opacity:.85}
-  @media(min-width:640px){
-    .header{padding:18px 0}
-    .header-logo{width:64px;height:64px}
-    .header h1{font-size:1.35rem;letter-spacing:.5px}
-    .header p{font-size:.82rem}
-    .header .sub{font-size:.72rem}
-  }
-  @media(min-width:768px){
-    .header-logo{width:72px;height:72px}
-  }
+        body {
+            background-color: #f4f7fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-  /* ===== NAVBAR ===== */
-  .navbar{background:#fff;border-bottom:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,.06);position:sticky;top:0;z-index:30}
-  .navbar-inner{max-width:1200px;margin:0 auto;padding:0 12px}
-  .nav-mobile{display:flex;align-items:center;justify-content:space-between;height:52px}
-  .nav-desktop{display:none}
-  .nav-brand{font-weight:700;font-size:.85rem;color:#1a237e}
-  .menu-toggle{background:none;border:none;padding:8px;cursor:pointer;color:#475569;border-radius:4px}
-  .menu-toggle:hover{background:#f1f5f9}
-  .menu-toggle svg{width:24px;height:24px;display:block}
-  .nav-links-mobile{display:none;border-top:1px solid #e2e8f0;padding:8px 0}
-  .nav-links-mobile.open{display:block}
-  .nav-link{display:block;padding:10px 16px;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s;border:none;background:transparent;color:#475569;text-decoration:none;text-align:left;width:100%}
-  .nav-link:hover{background:#f1f5f9}
-  .nav-link.active{background:#1a237e;color:#fff}
-  .btn-input-mobile{background:#dc2626;color:#fff;border:none;padding:7px 12px;border-radius:5px;font-size:.72rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px}
-  .btn-input-mobile:hover{background:#b91c1c}
-  .btn-input{background:#dc2626;color:#fff;border:none;padding:9px 18px;border-radius:6px;font-size:.85rem;font-weight:700;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:6px}
-  .btn-input:hover{background:#b91c1c}
-  @media(min-width:1024px){
-    .nav-mobile{display:none}
-    .nav-desktop{display:flex;align-items:center;justify-content:space-between;height:52px;gap:8px}
-    .nav-desktop .nav-links{display:flex;gap:4px;flex-wrap:wrap}
-    .nav-desktop .nav-link{display:inline-block;width:auto;padding:8px 16px}
-  }
+        .container {
+            width: 95%;
+            max-width: 1450px;
+            margin: 0 auto;
+        }
 
-  /* ===== CONTAINERS ===== */
-  .container{max-width:1200px;margin:0 auto;padding:16px 12px}
-  @media(min-width:640px){.container{padding:24px 16px}}
-  .page{display:none}
-  .page.active{display:block}
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-bottom: 6px solid #fbbf24;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
 
-  /* ===== DASHBOARD ===== */
-  .print-bar{display:flex;justify-content:flex-end;margin-bottom:12px;gap:6px;flex-wrap:wrap}
-  .btn-print,.btn-excel,.btn-pdf{display:flex;align-items:center;gap:4px;padding:7px 12px;border-radius:5px;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid #d1d5db;background:#fff;color:#475569;white-space:nowrap}
-  .btn-print:hover{background:#f9fafb}
-  .btn-excel{background:#16a34a;color:#fff;border:none}
-  .btn-excel:hover{background:#15803d}
-  .btn-pdf{background:#dc2626;color:#fff;border:none}
-  .btn-pdf:hover{background:#b91c1c}
-  @media(min-width:640px){
-    .btn-print,.btn-excel,.btn-pdf{padding:8px 16px;font-size:.82rem;gap:6px}
-    .print-bar{gap:8px;margin-bottom:16px}
-  }
-  .btn-edit{background:#f59e0b;color:#fff;border:none;padding:5px 8px;border-radius:4px;font-size:.65rem;font-weight:700;cursor:pointer;margin-right:3px}
-  .btn-edit:hover{background:#d97706}
-  .btn-del-icon{background:#dc2626;color:#fff;border:none;padding:5px 8px;border-radius:4px;font-size:.65rem;font-weight:700;cursor:pointer}
-  .btn-del-icon:hover{background:#b91c1c}
+        header h1 { font-size: 24px; letter-spacing: 1px; margin-bottom: 5px; }
+        header p { font-size: 16px; font-weight: bold; color: #dbeafe; }
+        header .address { font-size: 12px; font-weight: normal; margin-top: 8px; color: #bfdbfe; }
 
-  .logo-area{background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:20px;text-align:center;margin-bottom:18px;display:flex;align-items:center;justify-content:center}
-  .logo-upk{width:140px;height:140px;object-fit:contain}
-  @media(min-width:640px){.logo-area{padding:40px;margin-bottom:24px} .logo-upk{width:220px;height:220px}}
+        main { flex: 1; padding: 30px 0; }
 
-  .dash-title{text-align:center;margin-bottom:22px;padding:0 8px}
-  .dash-title h2{font-size:1.2rem;font-weight:700;color:#1f2937}
-  .dash-title p{color:#6b7280;margin-top:4px;font-size:.78rem}
-  @media(min-width:640px){.dash-title{margin-bottom:32px} .dash-title h2{font-size:1.5rem} .dash-title p{font-size:.9rem}}
+        .main-logo-wrapper { text-align: center; margin-bottom: 20px; }
+        .center-logo { max-width: 200px; height: auto; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.1)); }
 
-  /* ===== STAT CARDS ===== */
-  .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
-  .stat-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:12px;border-left:4px solid}
-  .stat-card .label{font-size:.7rem;color:#6b7280;margin-bottom:4px;line-height:1.2}
-  .stat-card .value{font-size:1.4rem;font-weight:800}
-  @media(min-width:640px){
-    .stats-grid{gap:16px;margin-bottom:32px}
-    .stat-card{padding:20px;border-radius:12px}
-    .stat-card .label{font-size:.82rem}
-    .stat-card .value{font-size:1.8rem}
-  }
-  @media(min-width:1024px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
-  .stat-card.blue{border-color:#3b82f6}.stat-card.blue .value{color:#1d4ed8}
-  .stat-card.green{border-color:#22c55e}.stat-card.green .value{color:#16a34a}
-  .stat-card.yellow{border-color:#eab308}.stat-card.yellow .value{color:#ca8a04}
-  .stat-card.red{border-color:#ef4444}.stat-card.red .value{color:#dc2626}
+        .welcome-text { text-align: center; margin-bottom: 30px; }
+        .welcome-text h2 { color: #1e3a8a; font-size: 28px; margin-bottom: 5px; }
 
-  /* ===== PAKET CARDS ===== */
-  .paket-grid{display:grid;grid-template-columns:1fr;gap:12px}
-  .paket-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:18px;text-align:center;border:1px solid #dbeafe;cursor:pointer;transition:box-shadow .15s}
-  .paket-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.1)}
-  .paket-card h3{font-size:1.05rem;font-weight:700;color:#1f2937;margin-bottom:4px}
-  .paket-card p{font-size:.75rem;color:#6b7280}
-  .paket-card.red-border{border-color:#fecaca}
-  @media(min-width:640px){
-    .paket-grid{grid-template-columns:repeat(3,1fr);gap:24px}
-    .paket-card{padding:28px;border-radius:12px}
-    .paket-card h3{font-size:1.15rem}
-    .paket-card p{font-size:.82rem}
-  }
+        .card-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .card-btn {
+            background: white; border: 2px solid #1e3a8a; border-radius: 15px;
+            padding: 35px; width: 280px; cursor: pointer; transition: all 0.3s ease;
+            text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .card-btn h3 { font-size: 24px; color: #1e3a8a; margin-bottom: 10px; }
+        .card-btn p { color: #666; font-size: 14px; }
+        .card-btn:hover {
+            background: #1e3a8a; color: white; transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(30, 58, 138, 0.2);
+        }
+        .card-btn:hover h3, .card-btn:hover p { color: white; }
 
-  /* ===== TABLE / NAVIGATION ===== */
-  .back-link{color:#2563eb;font-size:.82rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;margin-bottom:12px;background:none;border:none}
-  .back-link:hover{color:#1d4ed8}
-  .section-title{font-size:1rem;font-weight:700;color:#1f2937;margin-bottom:12px}
-  @media(min-width:640px){.section-title{font-size:1.15rem;margin-bottom:16px}}
+        .hidden { display: none; }
+        .active { display: block; }
 
-  /* Desktop table */
-  .table-wrap{display:none;background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow-x:auto}
-  @media(min-width:768px){.table-wrap{display:block}}
-  table{width:100%;border-collapse:collapse;font-size:.78rem}
-  thead tr{background:#1a237e;color:#fff}
-  th{padding:10px 8px;text-align:left;font-weight:600;white-space:nowrap;font-size:.7rem}
-  td{padding:8px;border-top:1px solid #f1f5f9;white-space:nowrap}
-  tbody tr:hover{background:#f8fafc}
-  .empty-msg{padding:24px;text-align:center;color:#ca8a04;font-style:italic;font-size:.82rem}
+        .data-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 25px; background: white; padding: 15px 25px;
+            border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .back-btn {
+            background-color: #f1f5f9; color: #1e3a8a; border: 1px solid #cbd5e1;
+            padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;
+        }
 
-  /* Mobile cards */
-  .mobile-cards{display:block}
-  @media(min-width:768px){.mobile-cards{display:none}}
-  .data-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;margin-bottom:10px}
-  .data-card-head{background:#1a237e;color:#fff;padding:8px 12px;display:flex;justify-content:space-between;align-items:center}
-  .data-card-head .title{font-size:.78rem;font-weight:700}
-  .data-card-head .actions{display:flex;gap:4px}
-  .data-card-body{padding:10px 12px;font-size:.72rem}
-  .data-card-body .name{font-weight:600;color:#1f2937;font-size:.85rem;line-height:1.3}
-  .data-card-body .meta{color:#6b7280;margin-top:2px;font-size:.7rem}
-  .data-row{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;padding:8px 0;border-top:1px solid #f1f5f9;margin-top:8px}
-  .data-row .item{display:flex;align-items:center;gap:5px;font-size:.7rem}
-  .data-row .item .lbl{color:#6b7280}
-  .empty-card{background:#fff;border-radius:10px;padding:20px;text-align:center;color:#ca8a04;font-style:italic;font-size:.85rem}
+        .table-container {
+            background: white; padding: 20px; border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow-x: auto;
+        }
+table { width: 100%; border-collapse: collapse; min-width: 1200px; }
+        th {
+            background-color: #1e3a8a; color: white; padding: 12px;
+            text-align: left; font-size: 11px; text-transform: uppercase;
+        }
+        td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+        tr:hover { background-color: #f8fafc; }
 
-  /* Status badges */
-  .badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
-  .badge-sudah{background:#dcfce7;color:#15803d;border:1px solid #86efac}
-  .badge-belum{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5}
-  .num-badge{display:inline-block;padding:3px 8px;border-radius:5px;font-weight:700;font-size:.72rem;min-width:34px;text-align:center}
-  .num-match{background:#dcfce7;color:#15803d;border:1px solid #86efac}
-  .num-mismatch-siswa{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5}
-  .num-mismatch-dns{background:#fef3c7;color:#a16207;border:1px solid #fde047}
+        .status { padding: 4px 10px; border-radius: 50px; font-size: 10px; font-weight: bold; display: inline-block; }
+        .status-hijau { background-color: #dcfce7; color: #166534; }
+        .status-merah { background-color: #fee2e2; color: #991b1b; }
 
-  /* ===== MODAL (Wizard) ===== */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:stretch;justify-content:center;z-index:100}
-  @media(min-width:640px){.modal-overlay{align-items:center;padding:16px}}
-  .modal-overlay.hidden{display:none}
-  .modal{background:#fff;width:100%;display:flex;flex-direction:column;height:100%;overflow:hidden}
-  @media(min-width:640px){.modal{max-width:680px;max-height:95vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.3);height:auto}}
-  .modal-header{background:#1a237e;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
-  .modal-header h2{font-size:.95rem;font-weight:700}
-  .modal-close{background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer;line-height:1;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
-  .modal-close:hover{opacity:.7}
-  @media(min-width:640px){
-    .modal-header{padding:16px 24px}
-    .modal-header h2{font-size:1.05rem}
-  }
+        /* Warna untuk sel tabel Valid DNS, Konfirmasi, dan Residu DNS */
+        .cell-hijau { background-color: #dcfce7 !important; color: #166534; font-weight: bold; }
+        .cell-kuning { background-color: #fef9c3 !important; color: #854d0e; font-weight: bold; }
+        .cell-merah { background-color: #fee2e2 !important; color: #991b1b; font-weight: bold; }
 
-  /* Progress bar */
-  .progress-bar{height:6px;background:#e5e7eb;flex-shrink:0}
-  .progress-fill{height:100%;background:#1a237e;transition:width .3s}
+        footer {
+            background-color: #1e293b; color: #94a3b8; text-align: center;
+            padding: 20px 0; font-size: 13px; margin-top: 40px;
+        }
 
-  /* Stepper */
-  .stepper{padding:12px;background:#f9fafb;border-bottom:1px solid #e5e7eb;overflow-x:auto;flex-shrink:0}
-  .stepper-inner{display:flex;align-items:flex-start;gap:4px;min-width:300px}
-  .step-item{display:flex;align-items:flex-start;flex:1;min-width:0}
-  .step-circle-wrap{display:flex;flex-direction:column;align-items:center;min-width:0}
-  .step-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;background:#e5e7eb;color:#6b7280;transition:all .2s}
-  .step-circle.active{background:#1a237e;color:#fff;box-shadow:0 0 0 4px rgba(59,130,246,.2)}
-  .step-circle.done{background:#22c55e;color:#fff}
-  .step-label{font-size:.62rem;margin-top:4px;font-weight:600;color:#6b7280;text-align:center;max-width:60px;line-height:1.2}
-  .step-label.active{color:#1a237e}
-  .step-line{flex:1;height:2px;background:#e5e7eb;margin:16px 4px 0;min-width:10px}
-  .step-line.done{background:#22c55e}
-  @media(min-width:640px){
-    .stepper{padding:16px 24px}
-    .step-circle{width:38px;height:38px;font-size:.85rem}
-    .step-label{font-size:.7rem;max-width:none}
-    .step-line{margin:18px 8px 0}
-  }
+        /* PENGATURAN POSISI LOGO DAN TEKS DI HEADER */
+        .header-flex {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Membuat grup logo & teks berada di tengah */
+            gap: 20px; /* Jarak antara logo dan teks */
+        }
 
-  /* Body */
-  .modal-body{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch}
-  @media(min-width:640px){.modal-body{padding:20px 24px}}
-  .step-title{font-size:.92rem;font-weight:700;color:#1f2937;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-  .step-title .icon{font-size:1.3rem}
+        .header-logo {
+            max-width: 80px; /* Anda bisa mengubah angka ini untuk memperbesar/memperkecil logo */
+            height: auto;
+        }
 
-  .form-group{margin-bottom:14px}
-  .form-group label{display:block;font-size:.78rem;font-weight:600;margin-bottom:6px;color:#374151}
-  .form-group .req{color:#dc2626}
-  .form-group input,.form-group select{width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px 12px;font-size:.85rem;outline:none;transition:all .15s;background:#fff}
-  .form-group input:focus,.form-group select:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+        .header-text {
+            text-align: left; /* Membuat teks sejajar rata kiri di samping logo */
+        }
 
-  /* Paket picker buttons */
-  .picker-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .picker-btn{padding:12px;border:2px solid #d1d5db;border-radius:8px;background:#fff;color:#475569;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .15s}
-  .picker-btn:hover{border-color:#3b82f6}
-  .picker-btn.active{background:#1a237e;color:#fff;border-color:#1a237e;box-shadow:0 4px 6px rgba(0,0,0,.1)}
-
-  /* Status picker (Sudah/Belum) */
-  .status-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .status-btn{padding:14px;border:2px solid #d1d5db;border-radius:10px;background:#fff;color:#475569;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .15s;font-family:inherit}
-  .status-btn .icon-big{font-size:1.5rem}
-  .status-btn .lbl{font-size:.85rem}
-  .status-btn:hover{transform:translateY(-1px)}
-  .status-btn.sudah:hover{border-color:#22c55e;background:#f0fdf4}
-  .status-btn.belum:hover{border-color:#ef4444;background:#fef2f2}
-  .status-btn.active.sudah{background:#22c55e;color:#fff;border-color:#16a34a;box-shadow:0 4px 6px rgba(0,0,0,.1)}
-  .status-btn.active.belum{background:#ef4444;color:#fff;border-color:#dc2626;box-shadow:0 4px 6px rgba(0,0,0,.1)}
-
-  /* Inline grid for numbers */
-  .grid-2{display:grid;grid-template-columns:1fr;gap:12px}
-  @media(min-width:480px){.grid-2{grid-template-columns:1fr 1fr}}
-
-  .info-box{padding:10px 12px;border-radius:8px;font-size:.75rem;margin-top:8px}
-  .info-warn{background:#fef3c7;border:1px solid #fde047;color:#854d0e}
-  .info-blue{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}
-  .info-blue strong{color:#1e3a8a}
-
-  .summary-box{margin-top:18px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:14px;font-size:.75rem}
-  .summary-box h4{font-weight:700;color:#1f2937;margin-bottom:6px;font-size:.85rem}
-  .summary-box ul{list-style:none;color:#475569}
-  .summary-box li{padding:2px 0}
-
-  /* Footer */
-  .modal-footer{border-top:1px solid #e5e7eb;background:#f9fafb;padding:12px 16px;display:flex;flex-direction:column;gap:8px;flex-shrink:0}
-  .modal-footer .step-info{text-align:center;font-size:.7rem;color:#6b7280;order:1}
-  .btn-back{padding:10px 16px;border:1px solid #d1d5db;background:#fff;color:#475569;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;order:2}
-  .btn-back:hover{background:#f3f4f6}
-  .btn-next{padding:10px 24px;background:#1a237e;color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;order:3}
-  .btn-next:hover{background:#283593}
-  .btn-save-final{padding:10px 24px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;order:3}
-  .btn-save-final:hover{background:#15803d}
-  .btn-save-final:disabled{opacity:.5;cursor:not-allowed}
-  @media(min-width:640px){
-    .modal-footer{flex-direction:row;justify-content:space-between;align-items:center;padding:14px 24px}
-    .modal-footer .step-info{order:2}
-    .btn-back{order:1}
-    .btn-next,.btn-save-final{order:3}
-  }
-
-  /* ===== CHARTS ===== */
-  .charts-grid{display:grid;grid-template-columns:1fr;gap:12px}
-  @media(min-width:1024px){.charts-grid{grid-template-columns:1fr 1fr;gap:24px}}
-  .chart-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:12px}
-  @media(min-width:640px){.chart-card{padding:24px;border-radius:12px}}
-  .chart-card.full{grid-column:1/-1}
-  .chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-  .chart-header h3{font-weight:600;color:#374151;font-size:.82rem}
-  @media(min-width:640px){.chart-header h3{font-size:.95rem}}
-  .chart-dl{background:none;border:none;color:#9ca3af;font-size:1.1rem;cursor:pointer;padding:4px}
-  .chart-dl:hover{color:#4b5563}
-  .chart-body{position:relative;height:240px}
-  @media(min-width:640px){.chart-body{height:340px}}
-  .chart-body.tall{height:300px}
-  @media(min-width:640px){.chart-body.tall{height:420px}}
-
-  .summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px}
-  @media(min-width:768px){.summary-grid{grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}}
-  .summary-card{text-align:center;padding:14px 8px;border-radius:10px}
-  @media(min-width:640px){.summary-card{padding:20px}}
-  .summary-card.blue{background:#eff6ff}.summary-card.blue .sv{color:#1d4ed8}
-  .summary-card.green{background:#f0fdf4}.summary-card.green .sv{color:#16a34a}
-  .summary-card.yellow{background:#fefce8}.summary-card.yellow .sv{color:#ca8a04}
-  .summary-card.red{background:#fef2f2}.summary-card.red .sv{color:#dc2626}
-  .sv{font-size:1.5rem;font-weight:800}
-  @media(min-width:640px){.sv{font-size:1.8rem}}
-  .sl{font-size:.7rem;color:#6b7280;margin-top:4px}
-  @media(min-width:640px){.sl{font-size:.82rem}}
-
-  /* ===== PIN MODAL ===== */
-  .pin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px}
-  .pin-overlay.hidden{display:none}
-  .pin-modal{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.4);width:100%;max-width:380px;overflow:hidden}
-  .pin-modal.shake{animation:shake .4s ease-in-out}
-  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-  .pin-header{background:#1a237e;color:#fff;padding:20px 24px;text-align:center;position:relative}
-  .pin-header .close{position:absolute;top:10px;right:10px;background:none;border:none;color:#fff;font-size:1.4rem;width:32px;height:32px;border-radius:6px;cursor:pointer}
-  .pin-header .close:hover{background:rgba(255,255,255,.1)}
-  .pin-header .lock{font-size:2rem;margin-bottom:6px}
-  .pin-header h3{font-size:1.05rem;font-weight:700}
-  .pin-header p{font-size:.72rem;opacity:.9;margin-top:2px}
-  .pin-body{padding:20px}
-  .pin-dots{display:flex;justify-content:center;gap:8px;margin-bottom:14px;cursor:pointer}
-  .pin-dot{width:36px;height:46px;border:2px solid #d1d5db;background:#f9fafb;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;color:#1a237e;transition:all .15s}
-  .pin-dot.filled{border-color:#1a237e;background:#eff6ff}
-  .pin-msg-error{color:#dc2626;font-size:.78rem;text-align:center;margin-bottom:8px;font-weight:600}
-  .pin-msg-loading{color:#2563eb;font-size:.78rem;text-align:center;margin-bottom:8px;font-weight:600}
-  .pin-numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
-  .pin-key{background:#f3f4f6;border:none;font-size:1.1rem;font-weight:700;color:#1f2937;padding:14px;border-radius:8px;cursor:pointer;transition:background .1s;font-family:inherit}
-  .pin-key:hover{background:#e5e7eb}
-  .pin-key:active{background:#d1d5db;transform:scale(.97)}
-  .pin-key.clear{background:#fee2e2;color:#b91c1c;font-size:.78rem}
-  .pin-key.clear:hover{background:#fecaca}
-  .pin-key.back{background:#fef3c7;color:#a16207}
-  .pin-key.back:hover{background:#fde68a}
-  .pin-info{font-size:.7rem;color:#6b7280;text-align:center;margin-top:14px}
-  .pin-input{position:absolute;left:-9999px;opacity:0}
-
-  .admin-badge{background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:700;border:1px solid #86efac;margin-left:6px;display:inline-flex;align-items:center;gap:2px}
-  .btn-logout{background:none;border:none;color:#6b7280;padding:6px 8px;border-radius:4px;cursor:pointer;font-size:.85rem}
-  .btn-logout:hover{color:#dc2626;background:#fef2f2}
-  .btn-input.locked,.btn-input-mobile.locked{background:#6b7280}
-  .btn-input.locked:hover,.btn-input-mobile.locked:hover{background:#4b5563}
-
-  /* Print */
-  @media print{
-    .navbar,.btn-input,.btn-input-mobile,.print-bar,.btn-del-icon,.btn-edit,.back-link,.modal-overlay,.pin-overlay{display:none!important}
-    body{background:#fff}
-    .container{padding:0}
-    .mobile-cards{display:none!important}
-    .table-wrap{display:block!important}
-  }
-</style>
+        /* Responsif agar rapi saat dibuka di HP */
+        @media (max-width: 600px) {
+            .header-flex { 
+                flex-direction: column; 
+                text-align: center; 
+            }
+            .header-text { 
+                text-align: center; 
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- ===== HEADER ===== -->
-<header class="header">
-  <div class="header-inner">
-    <div class="header-logo"><img src="logo1.png" alt="Logo Kabupaten Sumedang"></div>
-    <div class="header-text">
-      <h1>DINAS PENDIDIKAN KABUPATEN SUMEDANG</h1>
-      <p style="font-weight:600">MONEV UPK UJIAN PENDIDIKAN NON FORMAL DIKMAS TAHUN 2026</p>
-      <p class="sub">Jl. Pendopo-tegalkaong Kel. Talun Kec. Sumedang Utara, Kabupaten Sumedang 45352</p>
-    </div>
-  </div>
-</header>
-
-<!-- ===== NAVBAR ===== -->
-<nav class="navbar">
-  <div class="navbar-inner">
-    <!-- Mobile -->
-    <div class="nav-mobile">
-      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
-        <svg id="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/>
-        </svg>
-      </button>
-      <span class="nav-brand">MONEV UPK<span id="adminBadgeMobile" class="admin-badge" style="display:none">🛡️ ADMIN</span></span>
-      <div style="display:flex;gap:4px;align-items:center">
-        <button id="btnLogoutMobile" class="btn-logout" onclick="logoutAdmin()" style="display:none" title="Logout">🚪</button>
-        <button id="btnInputMobile" class="btn-input-mobile locked" onclick="handleInputClick()">🔒 Input</button>
-      </div>
-    </div>
-    <!-- Mobile menu items -->
-    <div id="navLinksMobile" class="nav-links-mobile">
-      <button class="nav-link active" data-page="dashboard" onclick="showPage('dashboard');toggleMenu()">🏠 Dashboard</button>
-      <button class="nav-link" data-page="paket-a" onclick="showPage('paket-a');toggleMenu()">📘 Paket A</button>
-      <button class="nav-link" data-page="paket-b" onclick="showPage('paket-b');toggleMenu()">📗 Paket B</button>
-      <button class="nav-link" data-page="paket-c" onclick="showPage('paket-c');toggleMenu()">📕 Paket C</button>
-      <button class="nav-link" data-page="laporan" onclick="showPage('laporan');toggleMenu()">📊 Laporan</button>
-    </div>
-    <!-- Desktop -->
-    <div class="nav-desktop">
-      <div class="nav-links">
-        <button class="nav-link active" data-page="dashboard" onclick="showPage('dashboard')">🏠 Dashboard</button>
-        <button class="nav-link" data-page="paket-a" onclick="showPage('paket-a')">📘 Paket A</button>
-        <button class="nav-link" data-page="paket-b" onclick="showPage('paket-b')">📗 Paket B</button>
-        <button class="nav-link" data-page="paket-c" onclick="showPage('paket-c')">📕 Paket C</button>
-        <button class="nav-link" data-page="laporan" onclick="showPage('laporan')">📊 Laporan</button>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span id="adminBadge" class="admin-badge" style="display:none">🛡️ ADMIN</span>
-        <button id="btnLogout" class="btn-logout" onclick="logoutAdmin()" style="display:none">🚪 Logout</button>
-        <button id="btnInput" class="btn-input locked" onclick="handleInputClick()">🔒 Input Data Baru</button>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<div class="container">
-
-  <!-- DASHBOARD -->
-  <div id="page-dashboard" class="page active">
-    <div class="print-bar"><button class="btn-print" onclick="window.print()">🖨️ Cetak</button></div>
-    <div class="logo-area"><img src="logo.png" alt="Logo UPK" class="logo-upk"></div>
-    <div class="dash-title"><h2>Dashboard Utama</h2><p>Sistem siap menerima input data realtime.</p></div>
-    <div class="stats-grid">
-      <div class="stat-card blue"><div class="label">Total Peserta Diinput</div><div class="value" id="stat-total">0</div></div>
-      <div class="stat-card green"><div class="label">Peserta Paket A</div><div class="value" id="stat-a">0</div></div>
-      <div class="stat-card yellow"><div class="label">Peserta Paket B</div><div class="value" id="stat-b">0</div></div>
-      <div class="stat-card red"><div class="label">Peserta Paket C</div><div class="value" id="stat-c">0</div></div>
-    </div>
-    <div class="paket-grid">
-      <div class="paket-card" onclick="showPage('paket-a')"><h3>Paket A</h3><p>Lihat Data Tabel Paket A</p></div>
-      <div class="paket-card" onclick="showPage('paket-b')"><h3>Paket B</h3><p>Lihat Data Tabel Paket B</p></div>
-      <div class="paket-card red-border" onclick="showPage('paket-c')"><h3>Paket C</h3><p>Lihat Data Tabel Paket C</p></div>
-    </div>
-  </div>
-
-  <!-- PAKET PAGES -->
-  <div id="page-paket-a" class="page"></div>
-  <div id="page-paket-b" class="page"></div>
-  <div id="page-paket-c" class="page"></div>
-
-  <!-- LAPORAN -->
-  <div id="page-laporan" class="page">
-    <h2 style="font-size:1.05rem;font-weight:700;color:#1e40af;margin-bottom:18px;display:flex;align-items:center;gap:6px">📊 Laporan Grafik &amp; Statistik</h2>
-    <div class="charts-grid">
-      <div class="chart-card">
-        <div class="chart-header"><h3>Komposisi Peserta Terkini</h3><button class="chart-dl" onclick="downloadCanvas('pieChart','komposisi_peserta.png')">⬇️</button></div>
-        <div class="chart-body"><canvas id="pieChart"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <div class="chart-header"><h3>Jumlah Peserta per Kecamatan</h3><button class="chart-dl" onclick="downloadCanvas('barKecChart','peserta_per_kecamatan.png')">⬇️</button></div>
-        <div class="chart-body"><canvas id="barKecChart"></canvas></div>
-      </div>
-      <div class="chart-card full">
-        <div class="chart-header"><h3>Jumlah Peserta per PKBM (Satuan Pendidikan)</h3><button class="chart-dl" onclick="downloadCanvas('barPkbmChart','peserta_per_pkbm.png')">⬇️</button></div>
-        <div class="chart-body tall"><canvas id="barPkbmChart"></canvas></div>
-      </div>
-    </div>
-    <div class="summary-grid">
-      <div class="summary-card blue"><div class="sv" id="sum-total">0</div><div class="sl">Total Data</div></div>
-      <div class="summary-card green"><div class="sv" id="sum-a">0</div><div class="sl">Paket A</div></div>
-      <div class="summary-card yellow"><div class="sv" id="sum-b">0</div><div class="sl">Paket B</div></div>
-      <div class="summary-card red"><div class="sv" id="sum-c">0</div><div class="sl">Paket C</div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== PIN MODAL ===== -->
-<div id="pinModal" class="pin-overlay hidden">
-  <div id="pinBox" class="pin-modal">
-    <div class="pin-header">
-      <button class="close" onclick="closePinModal()">&times;</button>
-      <div class="lock">🔒</div>
-      <h3>Akses Admin</h3>
-      <p>Masukkan PIN untuk melanjutkan</p>
-    </div>
-    <div class="pin-body">
-      <input type="tel" inputmode="numeric" pattern="[0-9]*" id="pinHidden" class="pin-input" maxlength="6">
-      <div class="pin-dots" id="pinDots" onclick="document.getElementById('pinHidden').focus()"></div>
-      <div id="pinMsg"></div>
-      <div class="pin-numpad">
-        <button class="pin-key" onclick="pinAdd('1')">1</button>
-        <button class="pin-key" onclick="pinAdd('2')">2</button>
-        <button class="pin-key" onclick="pinAdd('3')">3</button>
-        <button class="pin-key" onclick="pinAdd('4')">4</button>
-        <button class="pin-key" onclick="pinAdd('5')">5</button>
-        <button class="pin-key" onclick="pinAdd('6')">6</button>
-        <button class="pin-key" onclick="pinAdd('7')">7</button>
-        <button class="pin-key" onclick="pinAdd('8')">8</button>
-        <button class="pin-key" onclick="pinAdd('9')">9</button>
-        <button class="pin-key clear" onclick="pinClear()">Clear</button>
-        <button class="pin-key" onclick="pinAdd('0')">0</button>
-        <button class="pin-key back" onclick="pinBack()">⌫</button>
-      </div>
-      <div class="pin-info">🛡️ Akses terbatas hanya untuk Admin</div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== INPUT MODAL (WIZARD) ===== -->
-<div id="modal" class="modal-overlay hidden">
-  <div class="modal">
-    <div class="modal-header">
-      <h2 id="modalTitle">Input Data Peserta Baru</h2>
-      <button class="modal-close" onclick="closeModal()">&times;</button>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:25%"></div></div>
-    <div class="stepper"><div class="stepper-inner" id="stepperInner"></div></div>
-    <div class="modal-body" id="modalBody"></div>
-    <div class="modal-footer">
-      <button class="btn-back" id="btnBack" onclick="prevStep()">← Kembali</button>
-      <div class="step-info" id="stepInfo">Langkah 1 dari 4</div>
-      <button class="btn-next" id="btnNext" onclick="nextStep()">Lanjut →</button>
-      <button class="btn-save-final" id="btnSave" onclick="submitData()" style="display:none">💾 Simpan Data</button>
-    </div>
-  </div>
-</div>
-
-<script>
-/* ============================
-   DATA STORAGE (localStorage)
-   ============================ */
-const STORAGE_KEY = 'monev_upk_data';
-const AUTH_KEY = 'monev_admin_auth';
-const ADMIN_PIN = '123456'; // Ubah PIN di sini untuk keamanan
-const KECAMATAN_OPTIONS = ['Sumedang Utara','Sumedang Selatan','Cimalaka','Ganeas','Situraja','Rancakalong','Cisitu','Wado','Jatinunggal','Tanjungmedar','Darmaraja','Conggeang','Paseh','Tomo','Ujungjaya','Jatigede','Buahdua','Tanjungsari','Sukasari','Pamulihan','Cimanggung','Jatinangor','Cisarua','Surian','Tanjungkerta'];
-
-/* ============================
-   ADMIN AUTH (PIN)
-   ============================ */
-let pendingAction = null;
-let pinValue = '';
-
-// Sesi admin disimpan di localStorage — TIDAK dibatasi waktu, tetap aktif sampai logout manual
-function isAdminAuthed(){return localStorage.getItem(AUTH_KEY) === 'yes'}
-function setAdminAuthed(v){
-  if(v) localStorage.setItem(AUTH_KEY,'yes');
-  else localStorage.removeItem(AUTH_KEY);
-  updateAdminUI();
-}
-// Sync auth state across browser tabs
-window.addEventListener('storage',e=>{ if(e.key === AUTH_KEY) updateAdminUI(); });
-function updateAdminUI(){
-  const authed = isAdminAuthed();
-  const elBadge = document.getElementById('adminBadge');
-  const elBadgeM = document.getElementById('adminBadgeMobile');
-  const elLogout = document.getElementById('btnLogout');
-  const elLogoutM = document.getElementById('btnLogoutMobile');
-  const btnInput = document.getElementById('btnInput');
-  const btnInputM = document.getElementById('btnInputMobile');
-  if(elBadge) elBadge.style.display = authed?'inline-flex':'none';
-  if(elBadgeM) elBadgeM.style.display = authed?'inline-flex':'none';
-  if(elLogout) elLogout.style.display = authed?'inline-block':'none';
-  if(elLogoutM) elLogoutM.style.display = authed?'inline-block':'none';
-  if(btnInput){
-    btnInput.classList.toggle('locked',!authed);
-    btnInput.innerHTML = authed?'✏️ Input Data Baru':'🔒 Input Data Baru';
-  }
-  if(btnInputM){
-    btnInputM.classList.toggle('locked',!authed);
-    btnInputM.innerHTML = authed?'✏️ Input':'🔒 Input';
-  }
-}
-function logoutAdmin(){
-  if(confirm('Keluar dari mode admin?')){
-    setAdminAuthed(false);
-  }
-}
-
-function requireAuth(action){
-  if(isAdminAuthed()){action();return}
-  pendingAction = action;
-  openPinModal();
-}
-
-function handleInputClick(){requireAuth(()=>openModal())}
-
-function openPinModal(){
-  pinValue = '';
-  document.getElementById('pinModal').classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-  renderPinDots();
-  document.getElementById('pinMsg').innerHTML = '';
-  setTimeout(()=>document.getElementById('pinHidden').focus(),100);
-}
-
-function closePinModal(){
-  document.getElementById('pinModal').classList.add('hidden');
-  document.body.style.overflow = '';
-  pendingAction = null;
-  pinValue = '';
-  document.getElementById('pinHidden').value = '';
-}
-
-function renderPinDots(){
-  const dots = document.getElementById('pinDots');
-  let html = '';
-  for(let i=0;i<6;i++){
-    html += `<div class="pin-dot ${i<pinValue.length?'filled':''}">${i<pinValue.length?'•':''}</div>`;
-  }
-  dots.innerHTML = html;
-}
-
-function pinAdd(d){
-  if(pinValue.length >= 6) return;
-  pinValue += d;
-  renderPinDots();
-  if(pinValue.length === 6) verifyPin();
-}
-function pinBack(){
-  pinValue = pinValue.slice(0,-1);
-  renderPinDots();
-  document.getElementById('pinMsg').innerHTML = '';
-}
-function pinClear(){
-  pinValue = '';
-  renderPinDots();
-  document.getElementById('pinMsg').innerHTML = '';
-}
-
-// Hidden input keyboard support
-document.addEventListener('DOMContentLoaded',()=>{
-  const hidden = document.getElementById('pinHidden');
-  if(hidden){
-    hidden.addEventListener('input',e=>{
-      pinValue = e.target.value.replace(/\D/g,'').slice(0,6);
-      renderPinDots();
-      if(pinValue.length === 6) verifyPin();
-    });
-  }
-});
-
-function verifyPin(){
-  document.getElementById('pinMsg').innerHTML = '<div class="pin-msg-loading">Memverifikasi...</div>';
-  setTimeout(()=>{
-    if(pinValue === ADMIN_PIN){
-      setAdminAuthed(true);
-      const action = pendingAction;
-      closePinModal();
-      if(action) action();
-    } else {
-      document.getElementById('pinMsg').innerHTML = '<div class="pin-msg-error">⚠️ PIN salah. Silakan coba lagi.</div>';
-      const box = document.getElementById('pinBox');
-      box.classList.add('shake');
-      setTimeout(()=>box.classList.remove('shake'),400);
-      pinValue = '';
-      document.getElementById('pinHidden').value = '';
-      renderPinDots();
-    }
-  },300);
-}
-const STEPS = [
-  {num:1,title:'Identitas Lembaga',short:'Identitas',icon:'🏫'},
-  {num:2,title:'Status Verval & Monev',short:'Verval/Monev',icon:'📋'},
-  {num:3,title:'Jumlah Peserta',short:'Peserta',icon:'👥'},
-  {num:4,title:'Status UPK',short:'UPK',icon:'📝'}
-];
-
-function loadData(){try{const r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):[]}catch{return[]}}
-function saveToStorage(d){localStorage.setItem(STORAGE_KEY,JSON.stringify(d))}
-function getNextId(){const d=loadData();return d.length===0?1:Math.max(...d.map(x=>x.id))+1}
-
-/* ============================
-   NAVIGATION
-   ============================ */
-let currentPage = 'dashboard';
-function toggleMenu(){document.getElementById('navLinksMobile').classList.toggle('open')}
-function showPage(page){
-  currentPage = page;
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  // Lazy render paket pages
-  if(page.startsWith('paket-')){
-    const paket = page.replace('paket-','').toUpperCase();
-    document.getElementById('page-'+page).innerHTML = renderPaketPage(paket);
-    renderTable(paket);
-  }
-  document.getElementById('page-' + page).classList.add('active');
-  document.querySelectorAll('.nav-link').forEach(n=>{
-    if(n.dataset.page === page) n.classList.add('active');
-    else n.classList.remove('active');
-  });
-  if(page==='laporan') setTimeout(renderCharts,100);
-  refreshAll();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function renderPaketPage(paket){
-  return `
-    <button class="back-link" onclick="showPage('dashboard')">← Kembali</button>
-    <div class="print-bar">
-      <button class="btn-print" onclick="window.print()">🖨️ Cetak</button>
-      <button class="btn-excel" onclick="exportExcel('${paket}')">📥 Excel</button>
-      <button class="btn-pdf" onclick="exportPDF('${paket}')">📄 PDF</button>
-    </div>
-    <div class="section-title">DATA MONEV UPK - PAKET ${paket}</div>
-    <div class="table-wrap"><table><thead><tr>
-      <th>NO</th><th>NPSN</th><th>SATUAN PENDIDIKAN</th><th>KECAMATAN</th><th>PELAKSANAAN</th><th>VERVAL</th><th>MONEV</th><th>JML SISWA</th><th>VALID DNS</th><th>PES. L</th><th>PES. P</th><th>UPK TULIS</th><th>UPK PRAKTIK</th><th>AKSI</th>
-    </tr></thead><tbody id="tbody-${paket.toLowerCase()}"></tbody></table></div>
-    <div class="mobile-cards" id="mcards-${paket.toLowerCase()}"></div>
-  `;
-}
-
-/* ============================
-   MODAL WIZARD
-   ============================ */
-let editingId = null;
-let currentStep = 1;
-let formState = {};
-const emptyForm = {paket:'A',npsn:'',satuanPendidikan:'',kecamatan:'',pelaksanaan:'',verval:'',monev:'',jmlSiswa:0,validDns:0,pesLakiLaki:0,pesPerempuan:0,upkTulis:'',upkPraktik:''};
-
-function openModal(){
-  editingId = null;
-  formState = {...emptyForm};
-  currentStep = 1;
-  document.getElementById('modalTitle').textContent = 'Input Data Peserta Baru';
-  document.getElementById('modal').classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-  renderStepper();
-  renderStepBody();
-  updateNav();
-}
-
-function openEditModal(id){
-  requireAuth(()=>doOpenEditModal(id));
-}
-function doOpenEditModal(id){
-  const data = loadData();
-  const row = data.find(d=>d.id===id);
-  if(!row) return;
-  editingId = id;
-  formState = {...row};
-  currentStep = 1;
-  document.getElementById('modalTitle').textContent = 'Edit Data Peserta';
-  document.getElementById('modal').classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-  renderStepper();
-  renderStepBody();
-  updateNav();
-}
-
-function closeModal(){
-  document.getElementById('modal').classList.add('hidden');
-  document.body.style.overflow = '';
-  editingId = null;
-}
-
-function renderStepper(){
-  const html = STEPS.map((s,i)=>{
-    const isDone = currentStep > s.num;
-    const isActive = currentStep === s.num;
-    const circleClass = isDone?'step-circle done':isActive?'step-circle active':'step-circle';
-    const labelClass = isActive?'step-label active':'step-label';
-    let item = `<div class="step-item"><div class="step-circle-wrap">
-      <div class="${circleClass}">${isDone?'✓':s.num}</div>
-      <div class="${labelClass}"><span class="hide-mobile">${s.title}</span><span class="show-mobile">${s.short}</span></div>
-    </div>`;
-    if(i < STEPS.length-1){
-      item += `<div class="step-line ${isDone?'done':''}"></div>`;
-    }
-    item += `</div>`;
-    return item;
-  }).join('');
-  document.getElementById('stepperInner').innerHTML = html;
-  document.getElementById('progressFill').style.width = (currentStep/STEPS.length*100)+'%';
-}
-
-function renderStepBody(){
-  const body = document.getElementById('modalBody');
-  const s = STEPS[currentStep-1];
-  let html = `<div class="step-title"><span class="icon">${s.icon}</span>Langkah ${currentStep}: ${s.title}</div>`;
-
-  if(currentStep === 1){
-    html += `
-      <div class="form-group">
-        <label>Pilih Paket <span class="req">*</span></label>
-        <div class="picker-grid-3">
-          ${['A','B','C'].map(p=>`<button type="button" class="picker-btn ${formState.paket===p?'active':''}" onclick="setField('paket','${p}')">Paket ${p}</button>`).join('')}
+    <header>
+        <div class="container header-flex">
+            <img src="logo1.png" alt="Logo Pemkab Sumedang" class="header-logo">
+            
+            <div class="header-text">
+                <h1>DINAS PENDIDIKAN KABUPATEN SUMEDANG</h1>
+                <p>MONEV UPK UJIAN PENDIDIKAN NON FORMAL DIKMAS TAHUN 2026</p>
+                <p class="address">Jl. Pendopo-tegalkaong Kel. Talun Kec. Sumedang Utara, Kabupaten Sumedang 45352</p>
+            </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>NPSN <span class="req">*</span></label>
-        <input type="text" id="i-npsn" value="${esc(formState.npsn)}" oninput="setField('npsn',this.value)" placeholder="Masukkan NPSN">
-      </div>
-      <div class="form-group">
-        <label>Satuan Pendidikan (PKBM) <span class="req">*</span></label>
-        <input type="text" id="i-satuan" value="${esc(formState.satuanPendidikan)}" oninput="setField('satuanPendidikan',this.value)" placeholder="Contoh: PKBM Bina Mandiri">
-      </div>
-      <div class="form-group">
-        <label>Kecamatan <span class="req">*</span></label>
-        <select id="i-kec" onchange="setField('kecamatan',this.value)">
-          <option value="">-- Pilih Kecamatan --</option>
-          ${KECAMATAN_OPTIONS.map(k=>`<option value="${k}" ${formState.kecamatan===k?'selected':''}>${k}</option>`).join('')}
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Pelaksanaan <span class="req">*</span></label>
-        <input type="text" id="i-pel" value="${esc(formState.pelaksanaan)}" oninput="setField('pelaksanaan',this.value)" placeholder="Contoh: Daring / Luring">
-      </div>
-    `;
-  } else if(currentStep === 2){
-    html += `
-      <div class="form-group">
-        <label>Status Verval <span class="req">*</span></label>
-        <div class="status-grid">
-          <button type="button" class="status-btn sudah ${formState.verval==='Sudah'?'active':''}" onclick="setField('verval','Sudah')"><span class="icon-big">✓</span><span class="lbl">SUDAH</span></button>
-          <button type="button" class="status-btn belum ${formState.verval==='Belum'?'active':''}" onclick="setField('verval','Belum')"><span class="icon-big">✗</span><span class="lbl">BELUM</span></button>
-        </div>
-      </div>
-      <div class="form-group" style="margin-top:18px">
-        <label>Status Monev <span class="req">*</span></label>
-        <div class="status-grid">
-          <button type="button" class="status-btn sudah ${formState.monev==='Sudah'?'active':''}" onclick="setField('monev','Sudah')"><span class="icon-big">✓</span><span class="lbl">SUDAH</span></button>
-          <button type="button" class="status-btn belum ${formState.monev==='Belum'?'active':''}" onclick="setField('monev','Belum')"><span class="icon-big">✗</span><span class="lbl">BELUM</span></button>
-        </div>
-      </div>
-    `;
-  } else if(currentStep === 3){
-    const mismatch = formState.jmlSiswa !== formState.validDns && (formState.jmlSiswa>0 || formState.validDns>0);
-    html += `
-      <div class="grid-2">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Jumlah Siswa</label>
-          <input type="number" min="0" value="${formState.jmlSiswa}" oninput="setField('jmlSiswa',parseInt(this.value)||0);renderStepBody()">
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Valid DNS</label>
-          <input type="number" min="0" value="${formState.validDns}" oninput="setField('validDns',parseInt(this.value)||0);renderStepBody()">
-        </div>
-      </div>
-      ${mismatch?'<div class="info-box info-warn">⚠️ Jumlah Siswa dan Valid DNS tidak sama. Mohon periksa kembali.</div>':''}
-      <div class="grid-2" style="margin-top:14px">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Peserta Laki-Laki</label>
-          <input type="number" min="0" value="${formState.pesLakiLaki}" oninput="setField('pesLakiLaki',parseInt(this.value)||0);renderStepBody()">
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Peserta Perempuan</label>
-          <input type="number" min="0" value="${formState.pesPerempuan}" oninput="setField('pesPerempuan',parseInt(this.value)||0);renderStepBody()">
-        </div>
-      </div>
-      <div class="info-box info-blue" style="margin-top:14px">
-        <strong>Total Peserta:</strong> ${formState.pesLakiLaki + formState.pesPerempuan} orang
-      </div>
-    `;
-  } else if(currentStep === 4){
-    html += `
-      <div class="form-group">
-        <label>Status UPK Tulis <span class="req">*</span></label>
-        <div class="status-grid">
-          <button type="button" class="status-btn sudah ${formState.upkTulis==='Sudah'?'active':''}" onclick="setField('upkTulis','Sudah')"><span class="icon-big">✓</span><span class="lbl">SUDAH</span></button>
-          <button type="button" class="status-btn belum ${formState.upkTulis==='Belum'?'active':''}" onclick="setField('upkTulis','Belum')"><span class="icon-big">✗</span><span class="lbl">BELUM</span></button>
-        </div>
-      </div>
-      <div class="form-group" style="margin-top:18px">
-        <label>Status UPK Praktik <span class="req">*</span></label>
-        <div class="status-grid">
-          <button type="button" class="status-btn sudah ${formState.upkPraktik==='Sudah'?'active':''}" onclick="setField('upkPraktik','Sudah')"><span class="icon-big">✓</span><span class="lbl">SUDAH</span></button>
-          <button type="button" class="status-btn belum ${formState.upkPraktik==='Belum'?'active':''}" onclick="setField('upkPraktik','Belum')"><span class="icon-big">✗</span><span class="lbl">BELUM</span></button>
-        </div>
-      </div>
-      <div class="summary-box">
-        <h4>📌 Ringkasan Data:</h4>
-        <ul>
-          <li><strong>Paket:</strong> ${formState.paket} | <strong>NPSN:</strong> ${esc(formState.npsn)}</li>
-          <li><strong>PKBM:</strong> ${esc(formState.satuanPendidikan)}</li>
-          <li><strong>Kecamatan:</strong> ${esc(formState.kecamatan)}</li>
-          <li><strong>Verval:</strong> ${formState.verval||'-'} | <strong>Monev:</strong> ${formState.monev||'-'}</li>
-          <li><strong>Jml Siswa:</strong> ${formState.jmlSiswa} | <strong>Valid DNS:</strong> ${formState.validDns}</li>
-        </ul>
-      </div>
-    `;
-  }
-  body.innerHTML = html;
-}
+    </header>
 
-function setField(field, value){
-  formState[field] = value;
-  // Re-render stepper if status/picker change for visual feedback
-  if(['paket','verval','monev','upkTulis','upkPraktik'].includes(field)){
-    renderStepBody();
-  }
-}
+    <main class="container">
+        
+        <section id="home-section" class="active">
+            <div class="main-logo-wrapper">
+                <img src="logo.png" alt="Logo Monev UPK" class="center-logo">
+            </div>
 
-function validateStep(s){
-  if(s===1){
-    if(!formState.paket||!formState.npsn||!formState.satuanPendidikan||!formState.kecamatan||!formState.pelaksanaan)
-      return 'Mohon lengkapi semua data identitas lembaga.';
-  }
-  if(s===2){
-    if(!formState.verval||!formState.monev) return 'Mohon pilih status Verval dan Monev.';
-  }
-  if(s===4){
-    if(!formState.upkTulis||!formState.upkPraktik) return 'Mohon pilih status UPK Tulis dan UPK Praktik.';
-  }
-  return null;
-}
+            <div class="welcome-text">
+                <h2>Dashboard Utama</h2>
+                <p>Monitoring & Verifikasi Pelaksanaan Ujian Pendidikan Kesetaraan (UPK)</p>
+            </div>
+            
+            <div class="card-container">
+                <div class="card-btn" onclick="tampilkanData('Paket A')">
+                    <h3>Paket A</h3>
+                    <p>Program Kesetaraan Setara SD</p>
+                </div>
+                <div class="card-btn" onclick="tampilkanData('Paket B')">
+                    <h3>Paket B</h3>
+                    <p>Program Kesetaraan Setara SMP</p>
+                </div>
+                <div class="card-btn" onclick="tampilkanData('Paket C')">
+                    <h3>Paket C</h3>
+                    <p>Program Kesetaraan Setara SMA</p>
+                </div>
+            </div>
+        </section>
 
-function nextStep(){
-  const err = validateStep(currentStep);
-  if(err){alert(err);return}
-  if(currentStep < STEPS.length){
-    currentStep++;
-    renderStepper();
-    renderStepBody();
-    updateNav();
-    document.getElementById('modalBody').scrollTop = 0;
-  }
-}
+        <section id="data-section" class="hidden">
+            <div class="data-header">
+                <button class="back-btn" onclick="kembaliKeHome()">⬅ Kembali</button>
+                <h2 id="judul-paket">DATA MONEV UPK</h2>
+            </div>
 
-function prevStep(){
-  if(currentStep === 1){closeModal();return}
-  currentStep--;
-  renderStepper();
-  renderStepBody();
-  updateNav();
-}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>NPSN</th>
+                            <th>Satuan Pendidikan</th>
+                            <th>Kecamatan</th>
+                            <th>Verval</th>
+                            <th>Monev</th>
+                            <th>Inst.</th>
+                            <th>Tgl.Keg</th>
+                            <th>Jenjang/Tingkat</th>
+                            <th>Peserta ( L )</th>
+                            <th>Peserta ( P )</th>
+                            <th>Jml Siswa </th>
+                            <th>Valid DNS</th>
+                            <th>Residu DNS</th>
+                            <th>Konfirmasi</th>
+                            <th>Jml Siswa</th>
+                            <th>Upk Tulis</th>
+                            <th>Upk Praktik</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-data">
+                        </tbody>
+                </table>
+            </div>
+        </section>
 
-function updateNav(){
-  document.getElementById('btnBack').textContent = currentStep===1?'✕ Batal':'← Kembali';
-  document.getElementById('stepInfo').textContent = `Langkah ${currentStep} dari ${STEPS.length}`;
-  if(currentStep === STEPS.length){
-    document.getElementById('btnNext').style.display = 'none';
-    document.getElementById('btnSave').style.display = 'block';
-    document.getElementById('btnSave').textContent = editingId?'💾 Update Data':'💾 Simpan Data';
-  } else {
-    document.getElementById('btnNext').style.display = 'block';
-    document.getElementById('btnSave').style.display = 'none';
-  }
-}
+    </main>
 
-function submitData(){
-  for(let s=1;s<=STEPS.length;s++){
-    const err = validateStep(s);
-    if(err){currentStep=s;renderStepper();renderStepBody();updateNav();alert(err);return}
-  }
-  const data = loadData();
-  if(editingId !== null){
-    const idx = data.findIndex(d=>d.id===editingId);
-    if(idx!==-1) data[idx] = {...data[idx], ...formState, updatedAt: new Date().toISOString()};
-  } else {
-    data.push({id:getNextId(), ...formState, createdAt:new Date().toISOString()});
-  }
-  saveToStorage(data);
-  closeModal();
-  refreshAll();
-}
+    <footer>
+        <div class="container">&copy; 2026 Dinas Pendidikan Kabupaten Sumedang.</div>
+    </footer>
 
-function deleteRow(id){
-  requireAuth(()=>{
-    if(!confirm('Yakin ingin menghapus data ini?')) return;
-    let data = loadData();
-    data = data.filter(d=>d.id!==id);
-    saveToStorage(data);
-    refreshAll();
-  });
-}
+    <script>
+        const databasePKBM = {
+            "Paket A": [
+                { npsn: "P2963445", nama: "PKBM TARBIYATUL UMMAH", kec: "Ganeas", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 55, rdns: 0, konf: 42, jpd: 55, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9952442", nama: "PKBM AL GHOFUR SITURAJA", kec: "Situraja", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 1, rdns: 0, konf: 1, jpd: 1, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9952443", nama: "PKBM MAHARANI", kec: "Situraja", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 8, rdns: 1, konf: 1, jpd: 9, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P2970386", nama: "PKBM AGROFORESTY", kec: "Jatinunggal", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 8, rdns: 0, konf: 0, jpd: 8, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P2963440", nama: "PKBM NURUL HUDA", kec: "Sumedang Selatan", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 3, rdns: 0, konf: 0, jpd: 3, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9998294", nama: "PKBM SHOHIBUL QURAN", kec: "Sumedang Selatan", verval: "Belum", monev: "Belum", inst: "Belum", tgl: "0", jnj: "Paket A", tkt: "Kelas 6", l: 0, p: 0, jml: 0, vdns: 9, rdns: 0, konf: 0, jpd: 9, tdok: "Belum", pdok: "Belum" },
+            ],  
+            "Paket B": [
+                { npsn: "P2963449", nama: "PKBM MEKAR BUANA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 29, rdns: 0, konf: 0, jpd: 29, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9934726", nama: "PKBM PASCA MARGA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 2, rdns: 0, konf: 0, jpd: 2, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9952581", nama: "PKBM MULYASARI SEJATI", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 1, rdns: 1, konf: 1, jpd: 1, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9999789", nama: "PKBM AL AMANAH", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 14, rdns: 0, konf: 0, jpd: 14, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P2963445", nama: "PKBM TARBIYATUL UMMAH", kec: "Ganeas", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 18, rdns: 1, konf: 1, jpd: 19, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9968108", nama: "PKBM CIGEMBONG", kec: "Ganeas", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 4, rdns: 5, konf: 0, jpd: 9, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P2970650", nama: "PKBM CERDAS KARYA", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 9, rdns: 0, konf: 0, jpd: 9, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9952443", nama: "PKBM MAHARANI", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 14, rdns: 0, konf: 1, jpd: 14, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9984832", nama: "PKBM PELITA INSANI", kec: "Cisarua", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 22, rdns: 5, konf: 0, jpd: 27, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P2964041", nama: "PKBM SIMPAY WARGI", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 3, rdns: 1, konf: 0, jpd: 4, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9934693", nama: "PKBM BHAKTI MANDIRI", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 1, rdns: 3, konf: 0, jpd: 4, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9984831", nama: "PKBM NUURUL HAQQ", kec: "Wado", verval: "Sudah", monev: "Belum", inst: "Sudah", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 3, rdns: 0, konf: 0, jpd: 3, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P2963439", nama: "PKBM AS-SALAM", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 6, rdns: 13, konf: 0, jpd: 19, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P2963440", nama: "PKBM NURUL HUDA", kec: "Sumeddang Selatan", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 20, rdns: 0, konf: 0, jpd: 20, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9984529", nama: "PKBM IGI SUMEDANG", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 7, rdns: 0, konf: 0, jpd: 7, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9984560", nama: "PKBM CENDIKIA", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 3, rdns: 0, konf: 0, jpd: 3, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P2963437", nama: "PKBM JEMBAR KABISA", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 18, rdns: 0, konf: 0, jpd: 18, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9996364", nama: "PKBM AL QOSAMIYAH", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 6, rdns: 0, konf: 0, jpd: 6, tdok: "Belum", pdok: "Belum" },
+                { npsn: "P9999067", nama: "PKBM ASSYARIATUL ULUM", kec: "Rancakalong", verval: "Sudah", monev: "sudah", inst: "Belum", tgl: "-", jnj: "Paket B", tkt: "Kelas 9", l: 0, p: 0, jml: 0, vdns: 1, rdns: 0, konf: 0, jpd: 1, tdok: "Belum", pdok: "Belum" },
+            ],      
+            "Paket C": [
+                { npsn: "P2963449", nama: "PKBM MEKAR BUANA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "21-22 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 15, p: 8, jml: 23, vdns: 23, rdns: 0, konf: 7, jpd: 23, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P9934726", nama: "PKBM PASCA MARGA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "15-18 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 24, p: 12, jml: 36, vdns: 32, rdns: 0, konf: 14, jpd: 36, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P9952581", nama: "PKBM MULYASARI SEJA", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "08-09 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 3, p: 5, jml: 8, vdns: 8, rdns: 0, konf: 8, jpd: 8, tdok: "Sudah", pdok: "Sudah" },
+                { npsn: "P9999789", nama: "PKBM AL AMANAH", kec: "Sumedang Utara", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "11-12 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 17, p: 8, jml: 25, vdns: 25, rdns: 0, konf: 0, jpd: 25, tdok: "Sudah", pdok: "Sudah" },
+                { npsn: "P2963445", nama: "PKBM TARBIYATUL UMN", kec: "Ganeas", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "04-05 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 43, p: 25, jml: 68, vdns: 67, rdns: 0, konf: 0, jpd: 67, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P9968108", nama: "PKBM CIGEMBONG", kec: "Ganeas", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "18-19 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 25, p: 20, jml: 45, vdns: 26, rdns: 19, konf: 0, jpd: 45, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P9952442", nama: "PKBM AL GHOFUR SITU", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "11-12 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 2, p: 1, jml: 3, vdns: 2, rdns: 1, konf: 2, jpd: 3, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P9952443", nama: "PKBM MAHARANI", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "17-19 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 17, p: 25, jml: 42, vdns: 37, rdns: 5, konf: 0, jpd: 42, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P9997402", nama: "PKBM SRIKANDI", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "11-12 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 3, p: 5, jml: 8, vdns: 8, rdns: 0, konf: 8, jpd: 8, tdok: "Sudah", pdok: "Sudah" },
+                { npsn: "P9984832", nama: "PKBM PELITA INSANI", kec: "Cisarua", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "11-12 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 67, p: 51, jml: 118, vdns: 106, rdns: 29, konf: 0, jpd: 136, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P2964041", nama: "PKBM SIMPAY WARGI", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "18-19 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 22, p: 30, jml: 52, vdns: 52, rdns: 13, konf: 7, jpd: 65, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P9934693", nama: "PKBM BINA BHAKTI MAN", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "30 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 17, p: 7, jml: 24, vdns: 23, rdns: 1, konf: 0, jpd: 24, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P9984831", nama: "PKBM NURUL HAQQ", kec: "Wado", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "26-Apr-26", jnj: "Paket C", tkt: "Kelas 12", l: 15, p: 19, jml: 34, vdns: 34, rdns: 0, konf: 0, jpd: 34, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P9984583", nama: "PKBM RAUDHOTUL JAN", kec: "Tanjung Medar", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "15-16 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 14, p: 10, jml: 24, vdns: 4, rdns: 20, konf: 0, jpd: 24, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P2963439", nama: "PKBM AS-SALAM", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 10, rdns: 17, konf: 0, jpd: 27, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P2963440", nama: "PKBM NURUL HUDA", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 134, rdns: 0, konf: 4, jpd: 134, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P9984529", nama: "PKBM IGI SUMEDANG", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 15, rdns: 0, konf: 0, jpd: 15, tdok: "Sudah", pdok: "Sudah" },
+                { npsn: "P9984560", nama: "PKBM CENDIKIA", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "13-14 April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 2, p: 4, jml: 6, vdns: 6, rdns: 0, konf: 0, jpd: 6, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P2963437", nama: "PKBM JEMBAR KABISA", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 71, rdns: 2, konf: 0, jpd: 73, tdok: "Sudah", pdok: "Belum" },
+                { npsn: "P9996364", nama: "PKBM AL QOSAMIYAH", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 10, jml: 0, vdns: 17, rdns: 0, konf: 0, jpd: 17, tdok: "Sudah", pdok: "Sudah" },
+                { npsn: "P9999067", nama: "PKBM ASSYARIATUL ULUM", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", tgl: "April 2026", jnj: "Paket C", tkt: "Kelas 12", l: 0, p: 0, jml: 0, vdns: 4, rdns: 4, konf: 0, jpd: 8, tdok: "Sudah", pdok: "Belum" },
+            ]
+        };
 
-function statusBadge(val){
-  if(val==='Sudah') return '<span class="badge badge-sudah">Sudah</span>';
-  if(val==='Belum') return '<span class="badge badge-belum">Belum</span>';
-  return '<span style="color:#9ca3af">-</span>';
-}
-
-function renderTable(paket){
-  const data = loadData().filter(d=>d.paket===paket);
-  const tbody = document.getElementById('tbody-'+paket.toLowerCase());
-  const cards = document.getElementById('mcards-'+paket.toLowerCase());
-  if(!tbody) return;
-
-  if(data.length === 0){
-    tbody.innerHTML = '<tr><td colspan="14" class="empty-msg">Belum ada data. Silakan klik tombol "Input" di atas.</td></tr>';
-    if(cards) cards.innerHTML = '<div class="empty-card">Belum ada data. Silakan klik tombol "Input" di atas.</div>';
-    return;
-  }
-
-  // Desktop table
-  tbody.innerHTML = data.map((row,i)=>{
-    const match = (row.jmlSiswa||0) === (row.validDns||0);
-    const sCls = match?'num-match':'num-mismatch-siswa';
-    const dCls = match?'num-match':'num-mismatch-dns';
-    return `<tr>
-      <td>${i+1}</td>
-      <td>${esc(row.npsn)}</td>
-      <td>${esc(row.satuanPendidikan)}</td>
-      <td>${esc(row.kecamatan)}</td>
-      <td>${esc(row.pelaksanaan)}</td>
-      <td>${statusBadge(row.verval)}</td>
-      <td>${statusBadge(row.monev)}</td>
-      <td><span class="num-badge ${sCls}">${row.jmlSiswa}</span></td>
-      <td><span class="num-badge ${dCls}">${row.validDns}</span></td>
-      <td>${row.pesLakiLaki}</td>
-      <td>${row.pesPerempuan}</td>
-      <td>${statusBadge(row.upkTulis)}</td>
-      <td>${statusBadge(row.upkPraktik)}</td>
-      <td>
-        <button class="btn-edit" onclick="openEditModal(${row.id})">✏️</button>
-        <button class="btn-del-icon" onclick="deleteRow(${row.id})">🗑️</button>
-      </td>
-    </tr>`;
-  }).join('');
-
-  // Mobile cards
-  if(cards){
-    cards.innerHTML = data.map((row,i)=>{
-      const match = (row.jmlSiswa||0) === (row.validDns||0);
-      const sCls = match?'num-match':'num-mismatch-siswa';
-      const dCls = match?'num-match':'num-mismatch-dns';
-      return `<div class="data-card">
-        <div class="data-card-head">
-          <span class="title">#${i+1} • NPSN ${esc(row.npsn)}</span>
-          <div class="actions">
-            <button class="btn-edit" onclick="openEditModal(${row.id})">✏️ Edit</button>
-            <button class="btn-del-icon" onclick="deleteRow(${row.id})">🗑️</button>
-          </div>
-        </div>
-        <div class="data-card-body">
-          <div class="name">${esc(row.satuanPendidikan)}</div>
-          <div class="meta">${esc(row.kecamatan)} • ${esc(row.pelaksanaan)}</div>
-          <div class="data-row">
-            <div class="item"><span class="lbl">Verval:</span> ${statusBadge(row.verval)}</div>
-            <div class="item"><span class="lbl">Monev:</span> ${statusBadge(row.monev)}</div>
-            <div class="item"><span class="lbl">UPK Tulis:</span> ${statusBadge(row.upkTulis)}</div>
-            <div class="item"><span class="lbl">UPK Prak:</span> ${statusBadge(row.upkPraktik)}</div>
-          </div>
-          <div class="data-row">
-            <div class="item"><span class="lbl">Jml Siswa:</span><span class="num-badge ${sCls}">${row.jmlSiswa}</span></div>
-            <div class="item"><span class="lbl">Valid DNS:</span><span class="num-badge ${dCls}">${row.validDns}</span></div>
-            <div class="item"><span class="lbl">L:</span> <strong>${row.pesLakiLaki}</strong></div>
-            <div class="item"><span class="lbl">P:</span> <strong>${row.pesPerempuan}</strong></div>
-          </div>
-        </div>
-      </div>`;
-    }).join('');
-  }
-}
-
-function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML}
-
-function updateStats(){
-  const data = loadData();
-  const t = data.length;
-  const a = data.filter(d=>d.paket==='A').length;
-  const b = data.filter(d=>d.paket==='B').length;
-  const c = data.filter(d=>d.paket==='C').length;
-  document.getElementById('stat-total').textContent = t;
-  document.getElementById('stat-a').textContent = a;
-  document.getElementById('stat-b').textContent = b;
-  document.getElementById('stat-c').textContent = c;
-  document.getElementById('sum-total').textContent = t;
-  document.getElementById('sum-a').textContent = a;
-  document.getElementById('sum-b').textContent = b;
-  document.getElementById('sum-c').textContent = c;
-}
-
-/* ============================
-   CHARTS
-   ============================ */
-let pieChartInstance=null, barKecChartInstance=null, barPkbmChartInstance=null;
-function renderCharts(){
-  const data = loadData();
-  const totA = data.filter(d=>d.paket==='A').reduce((s,d)=>s+(d.jmlSiswa||0),0);
-  const totB = data.filter(d=>d.paket==='B').reduce((s,d)=>s+(d.jmlSiswa||0),0);
-  const totC = data.filter(d=>d.paket==='C').reduce((s,d)=>s+(d.jmlSiswa||0),0);
-
-  const kecMap = {};
-  data.forEach(d=>{const k=d.kecamatan||'(Tanpa)';kecMap[k]=(kecMap[k]||0)+(d.jmlSiswa||0)});
-  const kecLabels = Object.keys(kecMap).sort((a,b)=>kecMap[b]-kecMap[a]);
-  const kecValues = kecLabels.map(k=>kecMap[k]);
-
-  const pkbmMap = {};
-  data.forEach(d=>{
-    const p=d.satuanPendidikan||'(Tanpa Nama)';
-    if(!pkbmMap[p]) pkbmMap[p]={A:0,B:0,C:0,total:0};
-    pkbmMap[p][d.paket] = (pkbmMap[p][d.paket]||0)+(d.jmlSiswa||0);
-    pkbmMap[p].total += (d.jmlSiswa||0);
-  });
-  const pkbmLabels = Object.keys(pkbmMap).sort((a,b)=>pkbmMap[b].total-pkbmMap[a].total);
-  const pkbmA = pkbmLabels.map(p=>pkbmMap[p].A);
-  const pkbmB = pkbmLabels.map(p=>pkbmMap[p].B);
-  const pkbmC = pkbmLabels.map(p=>pkbmMap[p].C);
-
-  if(pieChartInstance) pieChartInstance.destroy();
-  pieChartInstance = new Chart(document.getElementById('pieChart'), {
-    type:'doughnut',
-    data:{labels:['Paket A','Paket B','Paket C'],datasets:[{data:[totA,totB,totC],backgroundColor:['#3b82f6','#22c55e','#f59e0b'],borderWidth:2,borderColor:'#fff'}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:{callbacks:{label:c=>c.label+': '+c.parsed+' peserta'}}}}
-  });
-
-  if(barKecChartInstance) barKecChartInstance.destroy();
-  barKecChartInstance = new Chart(document.getElementById('barKecChart'), {
-    type:'bar',
-    data:{labels:kecLabels.length?kecLabels:['(Belum ada data)'],datasets:[{label:'Jumlah Peserta',data:kecValues.length?kecValues:[0],backgroundColor:'#1a237e',borderRadius:4}]},
-    options:{responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{maxRotation:45,minRotation:45,font:{size:10}}},y:{beginAtZero:true,ticks:{stepSize:1,precision:0}}},plugins:{legend:{position:'top'}}}
-  });
-
-  if(barPkbmChartInstance) barPkbmChartInstance.destroy();
-  barPkbmChartInstance = new Chart(document.getElementById('barPkbmChart'), {
-    type:'bar',
-    data:{labels:pkbmLabels.length?pkbmLabels:['(Belum ada data)'],datasets:[
-      {label:'Paket A',data:pkbmA.length?pkbmA:[0],backgroundColor:'#3b82f6',borderRadius:4},
-      {label:'Paket B',data:pkbmB.length?pkbmB:[0],backgroundColor:'#22c55e',borderRadius:4},
-      {label:'Paket C',data:pkbmC.length?pkbmC:[0],backgroundColor:'#f59e0b',borderRadius:4}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,ticks:{maxRotation:45,minRotation:30,font:{size:10}}},y:{stacked:true,beginAtZero:true,ticks:{stepSize:1,precision:0}}},plugins:{legend:{position:'top'}}}
-  });
-}
-
-function downloadCanvas(canvasId, filename){
-  const canvas = document.getElementById(canvasId);
-  const tmp = document.createElement('canvas');
-  tmp.width = canvas.width; tmp.height = canvas.height;
-  const ctx = tmp.getContext('2d');
-  ctx.fillStyle = '#fff'; ctx.fillRect(0,0,tmp.width,tmp.height);
-  ctx.drawImage(canvas,0,0);
-  const link = document.createElement('a');
-  link.download = filename;
-  link.href = tmp.toDataURL('image/png',1.0);
-  link.click();
-}
-
-function exportExcel(paket){
-  const data = loadData().filter(d=>d.paket===paket);
-  if(data.length===0){alert('Tidak ada data untuk diekspor.');return}
-  const wsData = data.map((row,i)=>({
-    'NO':i+1,'NPSN':row.npsn,'SATUAN PENDIDIKAN':row.satuanPendidikan,'KECAMATAN':row.kecamatan,
-    'PELAKSANAAN':row.pelaksanaan,'VERVAL':row.verval,'MONEV':row.monev,
-    'JML SISWA':row.jmlSiswa,'VALID DNS':row.validDns,'PES. LAKI LAKI':row.pesLakiLaki,
-    'PES. PEREMPUAN':row.pesPerempuan,'UPK TULIS':row.upkTulis,'UPK PRAKTIK':row.upkPraktik
-  }));
-  const ws = XLSX.utils.json_to_sheet(wsData);
-  ws['!cols'] = [{wch:5},{wch:12},{wch:28},{wch:20},{wch:16},{wch:10},{wch:10},{wch:10},{wch:10},{wch:14},{wch:14},{wch:10},{wch:12}];
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,ws,'Paket '+paket);
-  XLSX.writeFile(wb,'Data_Monev_UPK_Paket_'+paket+'.xlsx');
-}
-
-function exportPDF(paket){
-  const data = loadData().filter(d=>d.paket===paket);
-  if(data.length===0){alert('Tidak ada data untuk diekspor.');return}
-  const {jsPDF} = window.jspdf;
-  const doc = new jsPDF('landscape','mm','a4');
-  doc.setFillColor(26,35,126); doc.rect(0,0,297,28,'F');
-  doc.setTextColor(255,255,255); doc.setFontSize(14); doc.setFont('helvetica','bold');
-  doc.text('DINAS PENDIDIKAN KABUPATEN SUMEDANG',148.5,10,{align:'center'});
-  doc.setFontSize(10);
-  doc.text('MONEV UPK UJIAN PENDIDIKAN NON FORMAL DIKMAS TAHUN 2026',148.5,16,{align:'center'});
-  doc.setFontSize(8); doc.setFont('helvetica','normal');
-  doc.text('Jl. Pendopo-tegalkaong Kel. Talun Kec. Sumedang Utara, Kabupaten Sumedang 45352',148.5,22,{align:'center'});
-  doc.setFillColor(245,158,11); doc.rect(0,28,297,1.5,'F');
-  doc.setTextColor(0,0,0); doc.setFontSize(12); doc.setFont('helvetica','bold');
-  doc.text('DATA MONEV UPK - PAKET '+paket,14,38);
-  doc.setFontSize(9); doc.setFont('helvetica','normal');
-  const today = new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
-  doc.text('Tanggal Cetak: '+today,14,44);
-
-  const head = [['NO','NPSN','SATUAN PENDIDIKAN','KECAMATAN','PELAKSANAAN','VERVAL','MONEV','JML SISWA','VALID DNS','PES. L','PES. P','UPK TULIS','UPK PRAKTIK']];
-  const body = data.map((row,i)=>[i+1,row.npsn,row.satuanPendidikan,row.kecamatan,row.pelaksanaan,row.verval,row.monev,row.jmlSiswa,row.validDns,row.pesLakiLaki,row.pesPerempuan,row.upkTulis,row.upkPraktik]);
-
-  doc.autoTable({
-    head,body,startY:48,theme:'grid',
-    styles:{fontSize:7,cellPadding:2},
-    headStyles:{fillColor:[26,35,126],textColor:255,fontStyle:'bold',halign:'center'},
-    columnStyles:{0:{halign:'center',cellWidth:8},1:{cellWidth:18},7:{halign:'center',cellWidth:14},8:{halign:'center',cellWidth:14},9:{halign:'center',cellWidth:12},10:{halign:'center',cellWidth:12},11:{halign:'center',cellWidth:18},12:{halign:'center',cellWidth:20}},
-    didParseCell:function(d){
-      if(d.section==='body'){
-        const row = body[d.row.index];
-        const c = d.column.index;
-        if(c===5||c===6||c===11||c===12){
-          const v = row[c];
-          if(v==='Sudah'){d.cell.styles.fillColor=[220,252,231];d.cell.styles.textColor=[21,128,61]}
-          else if(v==='Belum'){d.cell.styles.fillColor=[254,226,226];d.cell.styles.textColor=[185,28,28]}
-          d.cell.styles.fontStyle='bold';
+function getBadge(val) {
+            const text = val.toString().toLowerCase();
+            if (text === "sudah" || text === "lengkap" || text === "*") {
+                return `<span class="status status-hijau">${val}</span>`;
+            }
+            return `<span class="status status-merah">${val}</span>`;
         }
-        const m = row[7]===row[8];
-        if(c===7){
-          if(m){d.cell.styles.fillColor=[220,252,231];d.cell.styles.textColor=[21,128,61]}
-          else{d.cell.styles.fillColor=[254,226,226];d.cell.styles.textColor=[185,28,28]}
-          d.cell.styles.fontStyle='bold';
-        }
-        if(c===8){
-          if(m){d.cell.styles.fillColor=[220,252,231];d.cell.styles.textColor=[21,128,61]}
-          else{d.cell.styles.fillColor=[254,243,199];d.cell.styles.textColor=[161,98,7]}
-          d.cell.styles.fontStyle='bold';
-        }
-      }
-    }
-  });
-  const finalY = doc.lastAutoTable.finalY || 50;
-  doc.setFontSize(8); doc.setFont('helvetica','italic');
-  doc.text('Total Data: '+data.length+' baris',14,finalY+8);
-  doc.text('Sumedang, '+today,250,finalY+14,{align:'right'});
-  doc.save('Data_Monev_UPK_Paket_'+paket+'.pdf');
-}
 
-function refreshAll(){
-  updateStats();
-  ['A','B','C'].forEach(p=>{
-    if(document.getElementById('tbody-'+p.toLowerCase())) renderTable(p);
-  });
-  if(currentPage==='laporan') renderCharts();
-}
+        // Fungsi untuk menentukan warna sel tabel Valid DNS, Konfirmasi, dan Residu DNS
+        // type: 'vdns' atau 'konf' (normal) | 'rdns' (inverted)
+        function getCellColor(value, jpd, type) {
+            if (type === 'rdns') {
+                // Residu DNS: green jika 0, yellow jika tidak sesuai jml siswa, red jika sesuai jml siswa
+                if (value === 0) return 'cell-hijau';
+                if (value === jpd) return 'cell-merah';
+                return 'cell-kuning';
+            } else {
+                // Valid DNS dan Konfirmasi: green jika sesuai jml siswa, yellow jika tidak sesuai, red jika 0
+                if (value === 0) return 'cell-merah';
+                if (value === jpd) return 'cell-hijau';
+                return 'cell-kuning';
+            }
+        }
 
-document.addEventListener('DOMContentLoaded',()=>{
-  updateAdminUI();
-  // Pre-render paket pages
-  ['A','B','C'].forEach(p=>{
-    document.getElementById('page-paket-'+p.toLowerCase()).innerHTML = renderPaketPage(p);
-  });
-  refreshAll();
-});
-</script>
+        function tampilkanData(paket) {
+            document.getElementById('home-section').classList.remove('active');
+            document.getElementById('home-section').classList.add('hidden');
+            document.getElementById('data-section').classList.remove('hidden');
+            document.getElementById('data-section').classList.add('active');
+
+            document.getElementById('judul-paket').innerText = `DATA MONEV UPK - ${paket.toUpperCase()}`;
+
+            const data = databasePKBM[paket];
+            const tbody = document.getElementById('tabel-data');
+            tbody.innerHTML = '';
+
+data.forEach((item, index) => {
+                const vdnsColorClass = getCellColor(item.vdns, item.jpd, 'vdns');
+                const rdnsColorClass = getCellColor(item.rdns, item.jpd, 'rdns');
+                const konfColorClass = getCellColor(item.konf, item.jpd, 'konf');
+                
+                const row = `<tr>
+                    <td>${index + 1}</td>
+                    <td><strong>${item.npsn}</strong></td>
+                    <td><strong>${item.nama}</strong></td>
+                    <td>${item.kec}</td>
+                    <td>${getBadge(item.verval)}</td>
+                    <td>${getBadge(item.monev)}</td>
+                    <td>${getBadge(item.inst)}</td>
+                    <td>${item.tgl}</td>
+                    <td>${item.jnj} / ${item.tkt}</td>
+                    <td>${item.l}</td>
+                    <td>${item.p}</td>
+                    <td>${item.jml}</td>
+                    <td><span class="status ${vdnsColorClass}">${item.vdns}</span></td>
+                    <td><span class="status ${rdnsColorClass}">${item.rdns}</span></td>
+                    <td><span class="status ${konfColorClass}">${item.konf}</span></td>
+                    <td><strong>${item.jpd}</strong></td>
+                    <td>${getBadge(item.tdok)}</td>
+                    <td>${getBadge(item.pdok)}</td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+            window.scrollTo(0,0);
+        }
+
+        function kembaliKeHome() {
+            document.getElementById('data-section').classList.remove('active');
+            document.getElementById('data-section').classList.add('hidden');
+            document.getElementById('home-section').classList.remove('hidden');
+            document.getElementById('home-section').classList.add('active');
+            window.scrollTo(0,0);
+        }
+    </script>
 </body>
 </html>
