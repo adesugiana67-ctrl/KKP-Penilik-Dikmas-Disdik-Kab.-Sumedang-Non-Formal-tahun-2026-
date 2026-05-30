@@ -29,7 +29,7 @@
             body {
                 background-color: #ffffff;
             }
-            nav, .no-print, button, form, .header-bg .bg-amber-400 {
+            nav, .no-print, button, form, .header-bg .bg-amber-400, .action-buttons {
                 display: none !important;
             }
             .header-bg {
@@ -71,7 +71,7 @@
     <header class="header-bg text-white text-center py-6 px-4 relative border-b-4 border-amber-400 shadow-md">
         <div class="flex items-center justify-center gap-4 mb-2">
             <div class="p-0 w-16 h-16 flex items-center justify-center no-print">
-<img src="logo1.png" alt="Logo" class="w-16 h-16 object-cover" />
+                <img src="logo1.png" alt="Logo" class="w-16 h-16 object-cover" />
             </div>
             <div>
                 <h1 class="text-xl md:text-2xl font-bold tracking-wide">DINAS PENDIDIKAN KABUPATEN SUMEDANG</h1>
@@ -102,7 +102,7 @@
 
          <section id="tab-beranda" class="tab-content block animate-fadeIn">
             <div class="text-center my-6 no-print">
-<img src="gambar.png" alt="Gambar" class="w-28 h-28 object-cover mx-auto mb-3 rounded-none" />
+                <img src="gambar.png" alt="Gambar" class="w-28 h-28 object-cover mx-auto mb-3 rounded-none" />
                 <h2 class="text-2xl font-bold text-gray-800">Dashboard Utama</h2>
                 <p class="text-sm text-gray-500">Monitoring & Verifikasi Pelaksanaan Ujian Pendidikan Kesetaraan (UPK)</p>
             </div>
@@ -146,7 +146,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
                 <div onclick="switchTab('paketA')" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center space-y-3 cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md group">
                     <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg mx-auto group-hover:scale-110 transition-transform">A</div>
                     <div>
@@ -173,7 +173,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 my-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 lg:col-span-7">
                     <div class="flex items-center justify-between mb-4">
                         <h4 class="font-bold text-sm text-gray-700 flex items-center space-x-2">
@@ -210,18 +210,31 @@
 
         <section id="tab-data" class="hidden animate-fade-in">
             <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
-                <div class="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-gray-50/70">
+                <div class="p-6 border-b border-gray-100 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 bg-gray-50/70">
                     <div>
                         <h3 id="data-title" class="text-xl font-bold text-gray-800 tracking-tight">DATA MONEV UPK - PAKET A</h3>
                         <p id="data-subtitle" class="text-xs text-gray-500 mt-1">Daftar monitoring pelaksanaan ujian Paket A setara SD</p>
                     </div>
-                    <div class="flex flex-wrap gap-2 items-center">
-                        <button onclick="openFormModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all cursor-pointer">
+                    <div class="flex flex-wrap gap-2 items-center action-buttons">
+                        <button onclick="openFormModalProtected()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all cursor-pointer">
                             <i class="fa-solid fa-plus"></i> <span>Tambah Data</span>
                         </button>
                         <button onclick="exportCSV()" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all cursor-pointer">
-                            <i class="fa-solid fa-file-excel"></i> <span>Unduh Data Excel/CSV</span>
+                            <i class="fa-solid fa-file-excel"></i> <span>Unduh CSV</span>
                         </button>
+                        
+                        <button onclick="exportJSON()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all cursor-pointer" title="Simpan semua data sebagai file JSON">
+                            <i class="fa-solid fa-download"></i> <span>Unduh JSON</span>
+                        </button>
+                        <label class="bg-violet-600 hover:bg-violet-700 text-white px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm">
+                            <i class="fa-solid fa-upload"></i> <span>Import JSON</span>
+                            <input type="file" id="import-json-file" accept=".json" onchange="importJSON(event)" class="hidden">
+                        </label>
+                        
+                        <button onclick="clearAllDataProtected()" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all cursor-pointer" title="Kosongkan database local host dan refresh data">
+                            <i class="fa-solid fa-trash-arrow-up"></i> <span>Kosongkan Data</span>
+                        </button>
+
                         <button onclick="window.print()" class="bg-blue-800 hover:bg-blue-900 text-white px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all cursor-pointer">
                             <i class="fa-solid fa-print"></i> <span>Cetak Tabel</span>
                         </button>
@@ -252,7 +265,7 @@
                             </tr>
                         </thead>
                         <tbody id="table-body" class="divide-y divide-gray-100 text-xs">
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -350,7 +363,10 @@
 
 
     <script>
-        // DATA SEEDING (Sesuai persis dengan tangkapan layar asli)
+        // PASSWORD KUNCI ADMIN
+        const ADMIN_PASSWORD = "admin123";
+
+        // DATA SEEDING
         let currentTab = 'beranda';
         let dataStore = {
             paketA: [
@@ -372,7 +388,7 @@
                 { npsn: "P9952443", nama: "PKBM MAHARANI", kec: "Situraja", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 27, valid: 27, konfirmasi: 0, tulis: "Belum", praktik: "Belum" },
                 { npsn: "P9984832", nama: "PKBM PELITA INSANI", kec: "Cisarua", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 4, valid: 4, konfirmasi: 0, tulis: "Belum", praktik: "Belum" },
                 { npsn: "P2964041", nama: "PKBM SIMPAY WARGI", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 4, valid: 4, konfirmasi: 0, tulis: "Belum", praktik: "Belum" },
-                { npsn: "P9934693", nama: "PKBM BHAKTI MANDIRI", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 3, valid: 3, konfirmasi: 0, tulis: "Belum", praktik: "Belum" },
+                { npsn: "P9934693", nama: "PKBM BHAKTI MANDIRI", kec: "Cisitu", verval: "Sudah", monev: "Sudah", inst: "Belum", font: "Belum", jenjang: "Paket B / Kelas 9", siswa: 3, valid: 3, konfirmasi: 0, tulis: "Belum", praktik: "Belum" },
                 { npsn: "P9984831", nama: "PKBM NUURUL HAQQ", kec: "Wado", verval: "Sudah", monev: "Belum", inst: "Sudah", jenjang: "Paket B / Kelas 9", siswa: 19, valid: 19, konfirmasi: 0, tulis: "Belum", praktik: "Belum" },
                 { npsn: "P2963439", nama: "PKBM AS-SALAM", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 20, valid: 20, konfirmasi: 0, tulis: "Belum", praktik: "Belum" },
                 { npsn: "P2963440", nama: "PKBM NURUL HUDA", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Belum", jenjang: "Paket B / Kelas 9", siswa: 7, valid: 7, konfirmasi: 0, tulis: "Belum", praktik: "Belum" },
@@ -399,7 +415,7 @@
                 { npsn: "P9984583", nama: "PKBM RAUDHOTUL JAN", kec: "Tanjung Medar", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 24, valid: 24, konfirmasi: 20, tulis: "Sudah", praktik: "Belum" },
                 { npsn: "P2963439", nama: "PKBM AS-SALAM", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 27, valid: 27, konfirmasi: 0, tulis: "Sudah", praktik: "Belum" },
                 { npsn: "P2963440", nama: "PKBM NURUL HUDA", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 134, valid: 134, konfirmasi: 4, tulis: "Sudah", praktik: "Belum" },
-                { npsn: "P9984529", nama: "PKBM IGI SUMEDANG", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 15, valid: 15, konfirmasi: 0, tulis: "Sudah", praktik: "Belum" },
+                { npsn: "P9984529", nama: "PKBM IGI SUMEDANG", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", font: "Belum", jenjang: "Paket C / Kelas 12", siswa: 15, valid: 15, konfirmasi: 0, tulis: "Sudah", praktik: "Belum" },
                 { npsn: "P9984560", nama: "PKBM CENDIKIA", kec: "Sumedang Selatan", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 6, valid: 6, konfirmasi: 0, tulis: "Sudah", praktik: "Belum" },
                 { npsn: "P2963437", nama: "PKBM JEMBAR KABISA", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 73, valid: 73, konfirmasi: 0, tulis: "Sudah", praktik: "Belum" },
                 { npsn: "P9996364", nama: "PKBM AL QOSAMIYAH", kec: "Rancakalong", verval: "Sudah", monev: "Sudah", inst: "Lengkap", jenjang: "Paket C / Kelas 12", siswa: 17, valid: 17, konfirmasi: 0, tulis: "Sudah", praktik: "Belum" },
@@ -429,7 +445,6 @@
                 document.getElementById('tab-beranda').classList.replace('block', 'hidden');
                 document.getElementById('tab-data').classList.replace('hidden', 'block');
                 
-                // Konfigurasi Dinamis Judul Tabel
                 let titleText = "DATA MONEV UPK - " + (tabId === 'paketA' ? 'PAKET A' : tabId === 'paketB' ? 'PAKET B' : 'PAKET C');
                 let subtitleText = "Daftar monitoring pelaksanaan ujian " + (tabId === 'paketA' ? 'Paket A setara SD' : tabId === 'paketB' ? 'Paket B setara SMP' : 'Paket C setara SMA');
                 
@@ -439,21 +454,20 @@
             }
         }
 
-        // RENDER DATA KE TABEL SECARA DINAMIS
+        // RENDER DATA KE TABEL
         function renderTable() {
             const currentList = dataStore[currentTab];
             const tbody = document.getElementById('table-body');
             
             if(!currentList || currentList.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="14" class="p-8 text-center text-gray-400 font-medium bg-white">Tidak ada data tersedia. Silakan klik "Tambah Data".</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="14" class="p-8 text-center text-gray-400 font-medium bg-white">Tidak ada data tersedia. Silakan klik "Tambah Data" atau "Import JSON".</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = currentList.map((item, index) => {
-                // Formatting badge warna sesuai status teks
                 const badgeVerval = item.verval === 'Sudah' ? 'badge-sudah' : 'badge-belum';
                 const badgeMonev = item.monev === 'Sudah' ? 'badge-sudah' : 'badge-belum';
-                const badgeInst = item.inst === 'Lengkap' ? 'badge-lengkap' : 'badge-belum';
+                const badgeInst = item.inst === 'Lengkap' ? 'badge-sudah' : 'badge-belum';
                 const badgeTulis = item.tulis === 'Sudah' ? 'badge-sudah' : 'badge-belum';
                 const badgePraktik = item.praktik === 'Sudah' ? 'badge-sudah' : 'badge-belum';
 
@@ -474,10 +488,10 @@
                         <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${badgePraktik}">${item.praktik}</span></td>
                         <td class="p-3 text-center sticky right-0 bg-white shadow-xl z-10 border-l border-gray-100">
                             <div class="flex items-center justify-center space-x-1">
-                                <button onclick="editRow(${index})" class="bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white p-1.5 rounded-lg transition-all text-xs cursor-pointer" title="Ubah Data">
+                                <button onclick="editRowProtected(${index})" class="bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white p-1.5 rounded-lg transition-all text-xs cursor-pointer" title="Ubah Data">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
-                                <button onclick="deleteRow(${index})" class="bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white p-1.5 rounded-lg transition-all text-xs cursor-pointer" title="Hapus Data">
+                                <button onclick="deleteRowProtected(${index})" class="bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white p-1.5 rounded-lg transition-all text-xs cursor-pointer" title="Hapus Data">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </div>
@@ -485,6 +499,18 @@
                     </tr>
                 `;
             }).join('');
+        }
+
+        // OTENTIKASI SEBELUM TAMBAH DATA (PASSWORD)
+        function openFormModalProtected() {
+            const inputPass = prompt("Masukkan Password Admin untuk Menambah Data:");
+            if (inputPass === null) return; // Klik batal
+            
+            if (inputPass === ADMIN_PASSWORD) {
+                openFormModal(false);
+            } else {
+                alert("Password Salah! Akses ditolak.");
+            }
         }
 
         // CONTROL FORM MODAL (OPEN / CLOSE)
@@ -508,12 +534,11 @@
             setTimeout(() => modal.classList.add('hidden'), 150);
         }
 
-        // SAVE FORM (CREATE & UPDATE LOGIC)
+        // SAVE FORM
         function saveForm(e) {
             e.preventDefault();
             const index = document.getElementById('edit-index').value;
             
-            // Set auto jenjang teks berdasarkan tab saat ini
             let jenjangLabel = "Paket A / Kelas 6";
             if (currentTab === 'paketB') jenjangLabel = "Paket B / Kelas 9";
             if (currentTab === 'paketC') jenjangLabel = "Paket C / Kelas 12";
@@ -534,10 +559,8 @@
             };
 
             if (index === "") {
-                // CREATE NEW RECORD
                 dataStore[currentTab].push(payload);
             } else {
-                // UPDATE EXISTING
                 dataStore[currentTab][index] = payload;
             }
 
@@ -546,111 +569,127 @@
             updateDashboard();
         }
 
-        // TRIGGER EDIT BUTTON
-        function editRow(index) {
-            const record = dataStore[currentTab][index];
-            document.getElementById('edit-index').value = index;
+        // TRIGGER EDIT BUTTON (PROTECTED)
+        function editRowProtected(index) {
+            const inputPass = prompt("Masukkan Password Admin untuk Mengubah Data:");
+            if (inputPass === null) return;
             
-            document.getElementById('form-npsn').value = record.npsn;
-            document.getElementById('form-nama').value = record.nama;
-            document.getElementById('form-kecamatan').value = record.kec;
-            document.getElementById('form-siswa').value = record.siswa;
-            document.getElementById('form-valid').value = record.valid;
-            document.getElementById('form-konfirmasi').value = record.konfirmasi;
-            document.getElementById('form-verval').value = record.verval;
-            document.getElementById('form-monev').value = record.monev;
-            document.getElementById('form-inst').value = record.inst;
-            document.getElementById('form-tulis').value = record.tulis;
-            document.getElementById('form-praktik').value = record.praktik;
+            if (inputPass === ADMIN_PASSWORD) {
+                const record = dataStore[currentTab][index];
+                document.getElementById('edit-index').value = index;
+                
+                document.getElementById('form-npsn').value = record.npsn;
+                document.getElementById('form-nama').value = record.nama;
+                document.getElementById('form-kecamatan').value = record.kec;
+                document.getElementById('form-siswa').value = record.siswa;
+                document.getElementById('form-valid').value = record.valid;
+                document.getElementById('form-konfirmasi').value = record.konfirmasi;
+                document.getElementById('form-verval').value = record.verval;
+                document.getElementById('form-monev').value = record.monev;
+                document.getElementById('form-inst').value = record.inst;
+                document.getElementById('form-tulis').value = record.tulis;
+                document.getElementById('form-praktik').value = record.praktik;
 
-            openFormModal(true);
-        }
-
-        // TRIGGER DELETE BUTTON WITH CONFIRMATION
-        function deleteRow(index) {
-            const target = dataStore[currentTab][index];
-            if(confirm(`Apakah Anda yakin ingin menghapus data "${target.nama}" (${target.npsn}) dari sistem?`)) {
-                dataStore[currentTab].splice(index, 1);
-                renderTable();
-                updateDashboard();
+                openFormModal(true);
+            } else {
+                alert("Password Salah! Akses ditolak.");
             }
         }
 
-        // DYNAMIC DASHBOARD ENGINE (Updates KPIs, Cards, & Chart.js instances live)
+        // TRIGGER DELETE BUTTON WITH CONFIRMATION (PROTECTED)
+        function deleteRowProtected(index) {
+            const target = dataStore[currentTab][index];
+            const inputPass = prompt(`Masukkan Password Admin untuk Menghapus "${target.nama}":`);
+            if (inputPass === null) return;
+
+            if (inputPass === ADMIN_PASSWORD) {
+                if(confirm(`Apakah Anda yakin ingin menghapus data "${target.nama}" (${target.npsn}) dari sistem?`)) {
+                    dataStore[currentTab].splice(index, 1);
+                    renderTable();
+                    updateDashboard();
+                }
+            } else {
+                alert("Password Salah! Akses ditolak.");
+            }
+        }
+
+        // DYNAMIC DASHBOARD ENGINE
         function updateDashboard() {
-            const listA = dataStore.paketA;
-            const listB = dataStore.paketB;
-            const listC = dataStore.paketC;
+            const listA = dataStore.paketA || [];
+            const listB = dataStore.paketB || [];
+            const listC = dataStore.paketC || [];
             const allItems = [...listA, ...listB, ...listC];
 
-            // 1. Update Mid-cards totals
-            document.getElementById('mid-card-a').innerText = `${listA.length} Lembaga`;
-            document.getElementById('mid-card-b').innerText = `${listB.length} Lembaga`;
-            document.getElementById('mid-card-c').innerText = `${listC.length} Lembaga`;
+            if(document.getElementById('mid-card-a')) {
+                document.getElementById('mid-card-a').innerText = `${listA.length} Lembaga`;
+                document.getElementById('mid-card-b').innerText = `${listB.length} Lembaga`;
+                document.getElementById('mid-card-c').innerText = `${listC.length} Lembaga`;
+                document.getElementById('kpi-lembaga').innerText = `${allItems.length} Lembaga`;
+                
+                const totalSiswa = allItems.reduce((acc, curr) => acc + curr.siswa, 0);
+                document.getElementById('kpi-siswa').innerText = `${totalSiswa.toLocaleString('id-ID')} Siswa`;
 
-            // 2. Update Top 4 KPI counters
-            document.getElementById('kpi-lembaga').innerText = `${allItems.length} Lembaga`;
-            
-            const totalSiswa = allItems.reduce((acc, curr) => acc + curr.siswa, 0);
-            document.getElementById('kpi-siswa').innerText = `${totalSiswa.toLocaleString('id-ID')} Siswa`;
+                const totalValid = allItems.reduce((acc, curr) => acc + curr.valid, 0);
+                document.getElementById('kpi-valid').innerText = `${totalValid.toLocaleString('id-ID')} Siswa`;
 
-            const totalValid = allItems.reduce((acc, curr) => acc + curr.valid, 0);
-            document.getElementById('kpi-valid').innerText = `${totalValid.toLocaleString('id-ID')} Siswa`;
+                const totalTulisDone = allItems.filter(item => item.tulis === 'Sudah').length;
+                document.getElementById('kpi-tulis').innerText = `${totalTulisDone} Lembaga`;
+            }
 
-            const totalTulisDone = allItems.filter(item => item.tulis === 'Sudah').length;
-            document.getElementById('kpi-tulis').innerText = `${totalTulisDone} Lembaga`;
-
-            // 3. Re-calculate chart values
             const siswaA = listA.reduce((a, b) => a + b.siswa, 0);
             const siswaB = listB.reduce((a, b) => a + b.siswa, 0);
             const siswaC = listC.reduce((a, b) => a + b.siswa, 0);
-
+            const totalTulisDone = allItems.filter(item => item.tulis === 'Sudah').length;
             const totalBelumTulis = allItems.length - totalTulisDone;
 
-            // Render/Update Bar Chart Instance
             if(chartSiswaRef) chartSiswaRef.destroy();
-            const ctxSiswa = document.getElementById('chartSiswa').getContext('2d');
-            chartSiswaRef = new Chart(ctxSiswa, {
-                type: 'bar',
-                data: {
-                    labels: ['Paket A (SD)', 'Paket B (SMP)', 'Paket C (SMA)'],
-                    datasets: [{
-                        label: 'Jumlah Siswa',
-                        data: [siswaA, siswaB, siswaC],
-                        backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6'],
-                        borderRadius: 8,
-                        maxBarThickness: 50
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
-                }
-            });
+            const canvasSiswa = document.getElementById('chartSiswa');
+            if (canvasSiswa) {
+                const ctxSiswa = canvasSiswa.getContext('2d');
+                chartSiswaRef = new Chart(ctxSiswa, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Paket A (SD)', 'Paket B (SMP)', 'Paket C (SMA)'],
+                        datasets: [{
+                            label: 'Jumlah Siswa',
+                            data: [siswaA, siswaB, siswaC],
+                            backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6'],
+                            borderRadius: 8,
+                            maxBarThickness: 50
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
+                    }
+                });
+            }
 
-            // Render/Update Doughnut Chart Instance
             if(chartMonevRef) chartMonevRef.destroy();
-            const ctxMonev = document.getElementById('chartMonev').getContext('2d');
-            chartMonevRef = new Chart(ctxMonev, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Selesai UPK Tulis', 'Belum Pelaksanaan'],
-                    datasets: [{
-                        data: [totalTulisDone, totalBelumTulis],
-                        backgroundColor: ['#10b981', '#ef4444'],
-                        borderWidth: 4,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
-                    cutout: '70%'
-                }
-            });
+            const canvasMonev = document.getElementById('chartMonev');
+            if (canvasMonev) {
+                const ctxMonev = canvasMonev.getContext('2d');
+                chartMonevRef = new Chart(ctxMonev, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Selesai UPK Tulis', 'Belum Pelaksanaan'],
+                        datasets: [{
+                            data: [totalTulisDone, totalBelumTulis],
+                            backgroundColor: ['#10b981', '#ef4444'],
+                            borderWidth: 4,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+                        cutout: '70%'
+                    }
+                });
+            }
         }
 
         // SIMULATED EXPORT CSV UTILITY
@@ -660,9 +699,9 @@
                 alert("Tidak ada data untuk diunduh!");
                 return;
             }
-            let csvContent = "data:text/csv;charset=utf-8,NO,NPSN,SATUAN PENDIDIKAN,KECAMATAN,VERVAL,MONEV,JML SISWA,VALID DNS\\n";
+            let csvContent = "data:text/csv;charset=utf-8,NO,NPSN,SATUAN PENDIDIKAN,KECAMATAN,VERVAL,MONEV,JML SISWA,VALID DNS\n";
             currentList.forEach((r, idx) => {
-                csvContent += `${idx+1},${r.npsn},${r.nama},${r.kec},${r.verval},${r.monev},${r.siswa},${r.valid}\\n`;
+                csvContent += `${idx+1},${r.npsn},${r.nama},${r.kec},${r.verval},${r.monev},${r.siswa},${r.valid}\n`;
             });
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
@@ -671,6 +710,72 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        // UTILITY UNDUH JSON
+        function exportJSON() {
+            try {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataStore, null, 4));
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.setAttribute("href", dataStr);
+                downloadAnchor.setAttribute("download", `Backup_Data_Monev_UPK_2026.json`);
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                downloadAnchor.removeChild(downloadAnchor);
+            } catch (error) {
+                alert("Gagal mengunduh file JSON: " + error.message);
+            }
+        }
+
+        // UTILITY IMPORT JSON
+        function importJSON(event) {
+            const fileReader = new FileReader();
+            const file = event.target.files[0];
+            
+            if (!file) return;
+
+            fileReader.onload = function(e) {
+                try {
+                    const parsedData = JSON.parse(e.target.result);
+                    
+                    if (parsedData.paketA && parsedData.paketB && parsedData.paketC) {
+                        dataStore = parsedData;
+                        renderTable();
+                        updateDashboard();
+                        alert("Data sistem berhasil di-import secara penuh!");
+                    } else {
+                        alert("Format JSON tidak valid. Pastikan file berisi properti 'paketA', 'paketB', dan 'paketC'.");
+                    }
+                } catch (error) {
+                    alert("Gagal membaca file JSON. Pastikan berkas tidak rusak/korup.");
+                }
+                document.getElementById('import-json-file').value = "";
+            };
+            
+            fileReader.readAsText(file);
+        }
+
+        // FUNGSI BARU: KOSONGKAN DATA & REFRESH (PROTECTED)
+        function clearAllDataProtected() {
+            const inputPass = prompt("PERINGATAN: Tindakan ini akan menghapus semua database local host!\nMasukkan Password Admin untuk mengosongkan data:");
+            if (inputPass === null) return;
+
+            if (inputPass === ADMIN_PASSWORD) {
+                if (confirm("Apakah Anda benar-benar yakin ingin mengosongkan seluruh data? Pastikan Anda sudah mengunduh berkas JSON sebagai cadangan jika diperlukan.")) {
+                    // Mengosongkan dataStore
+                    dataStore.paketA = [];
+                    dataStore.paketB = [];
+                    dataStore.paketC = [];
+
+                    // Refresh Visual Sistem
+                    renderTable();
+                    updateDashboard();
+
+                    alert("Database berhasil dikosongkan. Visual dashboard dan tabel telah di-refresh!");
+                }
+            } else {
+                alert("Password Salah! Akses dikosongkan ditolak.");
+            }
         }
 
         // INITIAL LOAD TRIGGER
